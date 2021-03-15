@@ -13,3 +13,4 @@ Features (Toyotas only):
 6. Allows hard braking (can stop in time for a stopped car when travelling at 80 km/h).
 7. (Hopefully) no uploading.
 8. Allows driver to use the accelerator.
+9. Brake disc icon shamelessly copied from @kegman
