@@ -4,7 +4,7 @@ This is an extremely dodgy (No FCW and driver can press accelerator) fork of ope
 
 You should use this fork if you are looking forward to getting banned.
 
-Features (tested on Toyotas only):
+Features (tested on Toyotas only) (branch: 083):
 1. No sound (Not yet complete, car chimes on disengage, this can be fixed if op does not send pcm_cancel command)(Two small chimes from the dash when OP wants your attention).
 2. No FCW (FCW handled by Driver Support ECU + SDSU).
 3. Includes shamelessly ripped off but modified version of @ShaneSmiskol's comma pedal SnG smoothing code (Extremely smooth stop and go, almost no double braking, capable of very low speed pedal ACC with very little jerking).
@@ -13,4 +13,4 @@ Features (tested on Toyotas only):
 6. Allows hard braking (can stop in time for a stopped car when travelling at 80 km/h).
 7. (Hopefully) no uploading.
 8. Allows driver to use the accelerator.
-9. Brake disc icon shamelessly copied from @kegman
+9. Brake disc icon and coloured MPC path shamelessly copied from @kegman
