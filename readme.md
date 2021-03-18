@@ -13,4 +13,5 @@ Features (tested on Toyotas only) (branch: 083):
 6. Allows hard braking (can stop in time for a stopped car when travelling at 80 km/h).
 7. (Hopefully) no uploading.
 8. Allows driver to use the accelerator.
-9. Brake disc icon and coloured MPC path shamelessly copied from @kegman
+9. Brake disc icon, coloured speed display, and coloured MPC path shamelessly copied from @kegman
+10. Toyota RPM reading.
