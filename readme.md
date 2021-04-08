@@ -6,7 +6,7 @@ You should use this fork if you are looking forward to getting banned.
 
 You should only use this fork on a Toyota/Lexus vehicle as there are stock features being replaced with vehicle specific features.
 
-Features (tested on Toyotas only) (branch: 084 or 084-new, depends on which one is updated most recently):
+Features (tested on Toyotas only, no back port and forward port to previous / new versions, what's on the version stays on that version) (branch: 084 or 084-new, depends on which one is updated most recently):
 1. No sound (Not yet complete, car chimes on disengage, this can be fixed if op does not send `pcm_cancel` command)(Two small chimes from the dash when OP wants your attention).
 2. No FCW (FCW & AEB handled by Driver Support ECU + SDSU).
 3. Toyota/Lexus hybrids with pedal only - Includes shamelessly ripped off but modified version of @ShaneSmiskol's comma pedal SnG smoothing code (Extremely smooth stop and go, almost no double braking, capable of very low speed pedal ACC with very little jerking).
