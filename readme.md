@@ -2,7 +2,7 @@
 
 This is an extremely dodgy (No FCW and driver can press accelerator) fork of openpilot, optimized for a TSS-P Prius with pedal, use with extreme caution.
 
-You should use this fork if you are looking forward to getting banned.
+You should use this fork if you are looking forward to getting banned. (I sometimes do panda safety changes for fun, these changes aren't usually permanent, uploader is disabled.)
 
 You should only use this fork on a Toyota/Lexus vehicle as there are stock features being replaced with vehicle specific features.
 
