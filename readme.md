@@ -12,11 +12,12 @@ Features (tested on Toyotas only, no back port and forward port to previous / ne
 3. Toyota/Lexus hybrids with pedal only - Includes shamelessly ripped off but modified version of @ShaneSmiskol's comma pedal SnG smoothing code (Extremely smooth stop and go, almost no double braking, capable of very low speed pedal ACC with very little jerking).
 4. Includes shamelessly ripped off but modified version of dragonpilot's "cruise speed override" function.
 5. Less acceleration for more eco driving.
-6. ~~coloured MPC path~~ (removed until code stabilises) shamelessly copied from @kegman
+6. coloured MPC path (both laned and laneless model) shamelessly stolen from @kegman.
 7. No uploading.
 8. Toyota/Lexus only - Allows hard braking (can stop in time for a stopped car when travelling at 80 km/h).
 9. Toyota/Lexus only - Allows driver to use the accelerator.
-10. Toyota/Lexus hybrids only - HV ICE RPM and acceleration command readings, with bb measurement readings stolen from @kegman
+10. Toyota/Lexus hybrids only - HV ICE RPM and acceleration command readings, with bb measurement readings stolen from @kegman.
 11. Toyota/Lexus only - Headlight based display brightness, similar to your car's factory dash, no comma brightness control, NO MORE BLINDING.
-12. Dark UI stolen from @rav4kumar
+12. Dark UI stolen from @rav4kumar.
 13. Border flashes red when op is engaging hard deceleration (brake lights on).
+14. Border flashes to notify user when system disengages.
