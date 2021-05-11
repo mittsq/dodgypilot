@@ -20,5 +20,4 @@ Features (branch: 084 or 084-new, depends on which one is updated most recently)
 10. ICE RPM and acceleration readings, UI stolen from @kegman. (more readings to be added)
 11. Headlight based display brightness, similar to vehicle's factory behaviour.
 12. Black UI stolen from @rav4kumar.
-13. Border flashes to notify user when system disengages.
-14. Icon to notify user when Auto Lane Change speed has been reached.
+13. Icon to notify user when Auto Lane Change speed has been reached.
