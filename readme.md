@@ -1,8 +1,10 @@
-![icon partially thanks to FallOutGirl9001 on DeviantArt](/img_spinner_comma.png)
-**Welcome to dodgypilot**
+![icon partially thanks to FallOutGirl9001 on DeviantArt.](/img_spinner_comma.png)
+# Welcome to dodgypilot
 
+## What is it and why is it dodgy?
 This is an extremely dodgy (No FCW, and driver can press accelerator) fork of openpilot, optimised for a TSS-P Prius with pedal, use with extreme caution.
 
+## General information
 Fork should only be used on a Toyota/Lexus vehicle as there are stock features being replaced with vehicle specific features.
 
 No feature backports once comma has determined a version to be ready for release, what's on the version stays on that version.
@@ -10,15 +12,17 @@ Old versions are left for future references, and should not be used by the end-u
 
 Branches prefixing "features/" are for cherry-picking. You may cherry-pick features that you like to your fork without going through my code.
 
+## Warnings and ToS
 WARNING: openpilot might not compile on your device if I'm doing something to the branch, always wait for the code to stabilise before installing this fork on your device.
 
 By using this software, you agree that:
-1. Maintainers of this software, and by definition - their entities, are not responsible for personal injuries, or damages done to your properties as a result of using this software.
+1. Maintainers of this software, and by definition - their entities, are not responsible for personal injuries, or damages done to your properties (these include your comma device(s) and vehicle(s)) as a result of using this software.
 2. You have viewed and acknowledged comma.ai and all its entities' terms of service.
 
 You do everything at your own risk.
 
-Features (branch: 084 or 084-new, depends on which one is updated most recently):
+## Features
+Features (branch: 085 or 085-new, depends on which one is updated most recently):
 1. No openpilot sounds (Two small chimes from the dash when OP wants driver's attention).
 2. No FCW (FCW & AEB handled by Driver Support ECU + SDSU).
 3. Includes shamelessly ripped off but modified version of @ShaneSmiskol's comma pedal SnG smoothing code.
@@ -34,4 +38,5 @@ Features (branch: 084 or 084-new, depends on which one is updated most recently)
 12. Darker UI stolen from @rav4kumar.
 13. Icon to notify user when Auto Lane Change speed has been reached.
 
-Icon partially thanks to FallOutGirl9001 on DeviantArt
+## Credits
+Icon partially thanks to FallOutGirl9001 on DeviantArt.
