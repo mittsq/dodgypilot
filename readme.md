@@ -1,3 +1,4 @@
+![icon partially thanks to FallOutGirl9001 on DeviantArt](/img_spinner_comma.png)
 **Welcome to dodgypilot**
 
 This is an extremely dodgy (No FCW, and driver can press accelerator) fork of openpilot, optimised for a TSS-P Prius with pedal, use with extreme caution.
@@ -32,3 +33,5 @@ Features (branch: 084 or 084-new, depends on which one is updated most recently)
 11. Headlight (as well as light sensor if present) based display brightness, similar to vehicle's factory behaviour.
 12. Darker UI stolen from @rav4kumar.
 13. Icon to notify user when Auto Lane Change speed has been reached.
+
+Icon partially thanks to FallOutGirl9001 on DeviantArt
