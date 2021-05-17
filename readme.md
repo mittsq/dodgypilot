@@ -29,7 +29,7 @@ Features (branch: 085 or 085-new, depends on which one is updated most recently)
 4. Includes ripped off but modified version of dragonpilot's "cruise speed override" function.
 5. Less acceleration for more eco driving.
 6. coloured MPC path (both laned / laneless model) stolen from @kegman.
-7. No uploading.
+7. No pings to comma servers.
 8. Allows more aggressive braking.
 9. Allows driver to use the accelerator.
 10. ICE RPM, accelerator, light sensor brightness, and acceleration readings, UI stolen from @kegman.
