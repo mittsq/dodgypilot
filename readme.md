@@ -5,7 +5,7 @@
 This is an extremely dodgy (No FCW, and driver can press accelerator) fork of openpilot, optimised for a TSS-P Prius with pedal, use with extreme caution.
 
 ## General information
-Fork should only be used on a Toyota/Lexus vehicle as there are stock features being replaced with vehicle specific features.
+Fork should only be used on a TSS-P Toyota/Lexus vehicle as there are stock features being replaced with vehicle specific features.
 
 No feature backports once comma has determined a version to be ready for release, what's on the version stays on that version.
 Old versions are left for future references, and should not be used by the end-user.
