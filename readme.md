@@ -37,6 +37,7 @@ Features (branch: 085 or 085-new, depends on which one is updated most recently)
 11. Headlight (as well as light sensor if present) based display brightness, similar to vehicle's factory behaviour.
 12. Darker UI stolen from @rav4kumar.
 13. Icon to notify user when Auto Lane Change speed has been reached.
+14. Keep factory LDA on Toyota/Lexus when openpilot is not enabled.
 
 ## Credits
 Icon partially thanks to FallOutGirl9001 on DeviantArt.
