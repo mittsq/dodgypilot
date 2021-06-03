@@ -1,4 +1,4 @@
-![icon partially thanks to FallOutGirl9001 on DeviantArt.](/img_spinner_comma.png)
+![icon partially thanks to FallOutGirl9001 on DeviantArt.](/dodgy_logo.png)
 # Welcome to dodgypilot
 
 ## What is it and why is it dodgy?
@@ -34,12 +34,10 @@ Features (branch: 085 or 085-new, depends on which one is updated most recently)
 7. No pings to comma servers.
 8. Allows more aggressive braking.
 9. Allows driver to use the accelerator.
-10. ICE RPM, accelerator, light sensor brightness, and acceleration readings, UI stolen from @kegman.
-  - Acceleration reading turns red if brake lights are lit.
-11. Headlight (as well as light sensor if present) based display brightness, similar to vehicle's factory behaviour.
+10. Measurement / Status readings
+11. Headlight + Combo Metre based display brightness, similar to vehicle's factory behaviour.
 12. Darker UI stolen from @rav4kumar.
-13. Icon to notify user when Auto Lane Change speed has been reached.
-14. Keep factory LDA on Toyota/Lexus when openpilot is not enabled.
+13. Keep factory LDA on Toyota/Lexus when openpilot is not enabled.
 
 ## Credits
 Icon partially thanks to FallOutGirl9001 on DeviantArt.
