@@ -25,7 +25,7 @@ You do everything at your own risk.
 
 ## Features
 Features (branch: 085 or 085-new, depends on which one is updated most recently):
-1. No openpilot sounds (Two small chimes from the dash when OP wants driver's attention).
+1. No openpilot sounds (Car will chime if op wants attention).
 2. No FCW (FCW & AEB handled by Driver Support ECU + SDSU).
 3. Includes ripped off but modified version of dragonpilot's "cruise speed override" function.
 4. No pings to comma servers.
