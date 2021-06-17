@@ -29,12 +29,11 @@ Features (branch: 085 or 085-new, depends on which one is updated most recently)
 2. No FCW (FCW & AEB handled by Driver Support ECU + SDSU).
 3. Includes ripped off but modified version of dragonpilot's "cruise speed override" function.
 4. No pings to comma servers.
-5. Allows more aggressive braking.
+5. Keep factory LDA on Toyota/Lexus when openpilot is not enabled.
 6. Allows driver to use the accelerator.
 7. Measurement / Status readings
 8. Headlight + Combo Metre based display brightness, similar to vehicle's factory behaviour.
 9. Darker UI stolen from @rav4kumar.
-10. Keep factory LDA on Toyota/Lexus when openpilot is not enabled.
 
 ## Credits
 Icon partially thanks to FallOutGirl9001 on DeviantArt.
