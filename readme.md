@@ -2,9 +2,7 @@
 # Welcome to dodgypilot
 
 ## What is it and why is it dodgy?
-This is an extremely dodgy (No FCW, and driver can press accelerator) fork of openpilot, optimised for a TSS-P Prius with pedal, use with extreme caution.
-
-Panda safety changes were made, do not enable uploader or your device will get banned.
+Dodgypilot is a dodgy fork of comma.ai's openpilot, with forward collision warning disabled and panda safety altered. Do not enable uploader while using this fork, otherwise your device will be banned.
 
 ## General information
 Fork should only be used on a TSS-P Toyota/Lexus vehicle as there are stock features being replaced with vehicle specific features.
