@@ -24,7 +24,7 @@ By using this software, you agree that:
 You do everything at your own risk.
 
 ## Features
-Features (branch: 085 or 085-new, depends on which one is updated most recently):
+Features (branch: 086 or 086-new, depends on which one is updated most recently):
 1. No openpilot sounds (Car will chime if op wants attention).
 2. No FCW (FCW & AEB handled by Driver Support ECU + SDSU).
 3. Includes ripped off but modified version of dragonpilot's "cruise speed override" function.
