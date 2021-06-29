@@ -2,7 +2,7 @@
 # Welcome to dodgypilot
 
 ## What is it and why is it dodgy?
-Dodgypilot is a dodgy fork of comma.ai's openpilot, with forward collision warning disabled and panda safety altered. Do not enable uploader while using this fork, otherwise your device will be banned.
+Dodgypilot is a dodgy fork of comma.ai's openpilot, with driver monitoring, forward collision warning disabled and panda safety altered. Do not enable uploader while using this fork, otherwise your device will be banned.
 
 ## General information
 Fork should only be used on a TSS-P Toyota/Lexus vehicle as there are stock features being replaced with vehicle specific features.
