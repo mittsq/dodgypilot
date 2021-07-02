@@ -2,7 +2,7 @@
 # Welcome to dodgypilot
 
 ## What is it and why is it dodgy?
-Dodgypilot is a dodgy fork of comma.ai's openpilot, with driver monitoring, forward collision warning disabled and panda safety altered. Do not enable uploader while using this fork, otherwise your device will be banned.
+Dodgypilot is a dodgy fork of comma.ai's openpilot, with driver monitoring and forward collision warning disabled, and panda safety altered. Do not enable uploader while using this fork, otherwise your device will be banned.
 
 ## General information
 Fork should only be used on a TSS-P Toyota/Lexus vehicle as there are stock features being replaced with vehicle specific features.
@@ -32,6 +32,7 @@ Features (branch: 086 or 086-new, depends on which one is updated most recently)
 7. Measurement / Status readings
 8. Headlight + Combo Metre based display brightness, similar to vehicle's factory behaviour.
 9. Darker UI stolen from @rav4kumar.
+10. No driver monitoring.
 
 ## Credits
 Icon partially thanks to FallOutGirl9001 on DeviantArt.
