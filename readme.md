@@ -5,7 +5,7 @@
 Dodgypilot is a dodgy fork of comma.ai's openpilot, with forward collision warning disabled, and panda safety altered. Do not enable uploader while using this fork, otherwise your device will be banned.
 
 ## General information
-Fork should only be used on a TSS-P Toyota/Lexus vehicle as there are stock features being replaced with vehicle specific features.
+Fork should only be used on Toyota/Lexus vehicles as there are stock features being replaced with vehicle specific features.
 
 No feature backports once comma has determined a version to be ready for release, what's on the version stays on that version.
 Old versions are left for future references, and should not be used by the end-user.
@@ -25,12 +25,12 @@ You do everything at your own risk.
 Features (use branch: release2-staging):
 1. No openpilot sounds (Car will chime if op wants attention).
 2. No FCW (FCW & AEB handled by Driver Support ECU + SDSU).
-3. Includes ripped off but modified version of dragonpilot's "cruise speed override" function.
+3. Allow minimum cruise speed override, stolen from DragonPilot.
 4. No pings to comma servers.
 5. Keep factory LDA on Toyota/Lexus when openpilot is not enabled.
-6. Allows driver to use the accelerator.
-7. Measurement / Status readings
-8. Headlight + Combo Metre based display brightness, similar to vehicle's factory behaviour.
+6. Allow accelerator pedal.
+7. Measurement / Status readings.
+8. Hugely improved display brightness handling.
 9. Darker UI stolen from @rav4kumar.
 
 ## Credits
