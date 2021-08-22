@@ -32,6 +32,7 @@ Features (use branch: release2-staging):
 7. Measurement / Status readings.
 8. Hugely improved display brightness handling.
 9. Darker UI stolen from @rav4kumar.
+10. ZSS Support
 
 ## Credits
 Icon partially thanks to FallOutGirl9001 on DeviantArt.
