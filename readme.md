@@ -26,7 +26,7 @@ Dodgypilot forwards the car's camera message when it is not engaged, as a result
 
 To prevent this, go to your car's settings and disable "LDA Steering Assist".
 
-This will not affect the functionality of dodgypilot, dodgypilot will turn Steering Assist on when it needs to.
+This will not affect the functionalities of dodgypilot, dodgypilot will turn Steering Assist on when it needs to.
 
 ## Warnings and ToS
 WARNING: openpilot might not compile on your device if I'm doing something to a non-precompiled branch, always wait for the code to stabilise before installing this fork on your device.
