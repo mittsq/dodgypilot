@@ -12,8 +12,6 @@ Fork should only be used on Toyota/Lexus vehicles as there are stock features be
 No feature backports once comma has determined a version to be ready for release, what's on the version stays on that version.
 Old versions are left for future references, and should not be used by the end-user.
 
-Branches prefixing "features/" are for cherry-picking. You may cherry-pick features that you like to your fork without going through my code.
-
 ## Installation
 Dodgypilot can only be installed after you have enabled ssh on your device.
 
