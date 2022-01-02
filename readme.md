@@ -41,10 +41,11 @@ You do everything at your own risk.
 3. Allows minimum cruise speed override, down to 40km/h, stolen from DragonPilot.
 4. No uploader. (UI API still active to maintain ease of maintenance)
 5. Keeps factory LDA on Toyota/Lexus when openpilot is not enabled.
-6. Allows the driver to use the accelerator pedal.
+6. Allows the driver to use the accelerator pedal. To use this, go to settings, and turn on Allow Gas Pedal.
 7. ~~Onroad UI Displays radarState, carState and deviceState readings.~~ Removed for now, I'll port this back once I'm familiar enough with Qt.
 8. Toyota only: Improved screen brightness handling by linking it with your headlights. To use this, go to settings, and turn on Brightness linking.
 9. Darker UI stolen from @rav4kumar.
+10. Allows switching between openpilot Long and stock ACC, requires SmartDSU. To use this, go to settings, and turn on Stock ACC.
 
 
 ## Credits
