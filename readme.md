@@ -41,7 +41,7 @@ You do everything at your own risk.
 3. No uploader. (UI API still active to maintain ease of maintenance.)
 4. Keeps factory LDA on Toyota/Lexus when openpilot is not enabled.
 5. Allows the driver to use the accelerator pedal. To use this, go to settings, and turn on Allow Gas Pedal.
-6. ~~Onroad UI Displays radarState, carState and deviceState readings.~~ Removed for now, I'll port this back once I'm familiar enough with Qt.
+6. Onroad UI Displays radarState, ~~carState and deviceState readings.~~ Partially removed for now, I'll port this back once I'm familiar enough with Qt.
 7. Toyota only: Improved screen brightness handling by linking it with your headlights. To use this, go to settings, and turn on Brightness linking.
 8. Darker UI stolen from @rav4kumar.
 9. Allows switching between openpilot Long and stock ACC, requires SmartDSU. To use this, go to settings, and turn on Stock ACC.
