@@ -5,7 +5,7 @@
 Dodgypilot is a dodgy fork of comma.ai's openpilot, with forward collision warning disabled, and panda safety altered. Do not enable uploader while using this fork, otherwise your device will be banned.
 
 ## General information
-Fork should only be used on Toyota/Lexus vehicles as there are stock features being replaced with vehicle specific features.
+This fork has a vehicle whitelist, and will only run on a Toyota/Lexus vehicle.
 
 *Please use the precompiled branch "release2-staging", this branch has been tested to function in normal circumstances.*
 
@@ -36,15 +36,16 @@ By using this software, you agree that:
 You do everything at your own risk.
 
 ## Features
-1. No device sounds (Car will chime if op wants attention.).
-2. ZSS Support.
-3. No uploader. (UI API still active to maintain ease of maintenance.)
+This fork:
+1. Disables openpilot sounds (Car will chime if op wants attention.).
+2. Supports ZSS.
+3. Disables the uploader. (UI API still active to maintain ease of maintenance.)
 4. Keeps factory LDA on Toyota/Lexus when openpilot is not enabled.
 5. Allows the driver to use the accelerator pedal. To use this, go to settings, and turn on Allow Gas Pedal.
-6. Onroad UI Displays radarState, ~~carState and deviceState readings.~~ Partially removed for now, I'll port this back once I'm familiar enough with Qt.
-7. Toyota only: Improved screen brightness handling by linking it with your headlights. To use this, go to settings, and turn on Brightness linking.
-8. Darker UI stolen from @rav4kumar.
-9. Allows switching between openpilot Long and stock ACC, requires SmartDSU. To use this, go to settings, and turn on Stock ACC.
+6. Displays radarState, ~~carState and deviceState~~ readings on the onroad UI. (Partially removed for now, I'll port this back once I'm familiar enough with Qt.)
+7. Improves screen brightness handling by linking it with your headlights. To use this feature, go to settings, and turn on `Use Linked Brightness`.
+8. Allows openpilot to be engaged even if adaptive cruise control is disabled. To use this feature, go to settings, and turn on `Allow Normal Cruise Control`.
+9. Allows switching between openpilot Long and stock ACC, requires SmartDSU. To use this, go to settings, and turn on `Use Stock ACC`.
 10. Allows minimum cruise speed override, down to 40km/h, stolen from DragonPilot. (Must not be used together with 9.)
 
 
