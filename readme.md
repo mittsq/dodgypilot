@@ -1,8 +1,8 @@
 ![icon partially thanks to FallOutGirl9001 on DeviantArt.](/dodgy_logo.png)
 # Welcome to dodgypilot
 
-## What is it and why is it dodgy?
-Dodgypilot is a dodgy fork of comma.ai's openpilot, with forward collision warning disabled, and panda safety altered. Do not enable uploader while using this fork, otherwise your device will be banned.
+## What is this?
+Dodgypilot is a dodgy fork of comma.ai's [openpilot](https://openpilot.comma.ai). It is actively maintained by cydia2020.
 
 ## General information
 This fork has a vehicle whitelist, and will only run on a Toyota/Lexus vehicle.
