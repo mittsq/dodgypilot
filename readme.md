@@ -1,5 +1,3 @@
-### not maintained right now as I have no access to a working device, maintenance efforts will resume once I get my device fixed.
-
 ![icon partially thanks to FallOutGirl9001 on DeviantArt.](/dodgy_logo.png)
 # Welcome to dodgypilot
 
