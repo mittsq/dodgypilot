@@ -41,13 +41,11 @@ This fork:
 2. Supports ZSS.
 3. Disables the uploader. (UI API still active to maintain ease of maintenance.)
 4. Keeps factory LDA on Toyota/Lexus when openpilot is not enabled.
-5. Allows the driver to use the accelerator pedal. To use this, go to settings, and turn on Allow Gas Pedal.
-6. Displays radarState, ~~carState and deviceState~~ readings on the onroad UI. (Partially removed for now, I'll port this back once I'm familiar enough with Qt.)
-7. Improves screen brightness handling by linking it with your headlights. To use this feature, go to settings, and turn on `Use Linked Brightness`.
-8. Allows openpilot to be engaged even if adaptive cruise control is disabled. To use this feature, go to settings, and turn on `Allow Normal Cruise Control`.
-9. Allows switching between openpilot Long and stock ACC, requires SmartDSU. To use this, go to settings, and turn on `Use Stock ACC`.
-10. Allows minimum cruise speed override, down to 40km/h, stolen from DragonPilot. (Must not be used together with 9.)
-11. Does not clear car parameters on startup, this improves startup speed and helps with params faults on startup. To reset car parameters, go to settings, and press `RESET CAR RECOGNITION`.
+5. Displays radarState, ~~carState and deviceState~~ readings on the onroad UI. (Partially removed for now, I'll port this back once I'm familiar enough with Qt.)
+6. Improves screen brightness handling by linking it with your headlights. To use this feature, go to settings, and turn on `Use Linked Brightness`.
+7. Allows openpilot to be engaged even if adaptive cruise control is disabled. To use this feature, go to settings, and turn on `Allow Normal Cruise Control`.
+8. Allows switching between openpilot Long and stock ACC, requires SmartDSU. To use this, go to settings, and turn on `Use Stock ACC`.
+9. Does not clear car parameters on startup, this improves startup speed and helps with params faults on startup. To reset car parameters, go to settings, and press `RESET CAR RECOGNITION`.
 
 
 ## Credits
