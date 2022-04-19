@@ -4,6 +4,8 @@
 ## What is this?
 Dodgypilot is a dodgy fork of comma.ai's [openpilot](https://openpilot.comma.ai). It is actively maintained by cydia2020.
 
+NO RELEASE SUPPORT FOR THE C3!
+
 ## General information
 This fork has a vehicle whitelist, and will only run on a Toyota/Lexus vehicle.
 
