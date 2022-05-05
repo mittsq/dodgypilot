@@ -48,7 +48,9 @@ This fork:
 7. Allows openpilot to be engaged even if adaptive cruise control is disabled. To use this feature, go to settings, and turn on `Allow Normal Cruise Control`.
 8. Allows switching between openpilot Long and stock ACC, requires SmartDSU. To use this, go to settings, and turn on `Use Stock ACC`.
 9. Does not clear car parameters on startup, this improves startup speed and helps with params faults on startup. To reset car parameters, go to settings, and press `RESET CAR RECOGNITION`.
-
+10. NEOS 20.
+11. Improves Prii's lateral control with the new torque controller.
+12. Improves stop-and-go performance, reduce acceleration oscillation.
 
 ## Credits
 Icon partially thanks to FallOutGirl9001 on DeviantArt.
