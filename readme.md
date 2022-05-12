@@ -51,8 +51,7 @@ This fork:
 10. NEOS 20.
 11. Improves Prii's lateral control with the new torque controller.
 12. Improves stop-and-go performance, reduce acceleration oscillation.
-13. Enables low cruise speed override, stolen from DragonPilot. To use this, ensure that you have a vehicle that's capable of openpilot longitudinal control, go to settings, and enable `Cruise Speed Rewrite`. When engaging under approximately 43.2km/h (45-46 km/h on the HUD), dodgypilot will set its cruise speed to the vehicle's current travel speed.
-14. Matches your comma device's display speed to your vehicle's speedometer speed.
+13. Enables low cruise speed override, stolen from DragonPilot. To use this, ensure that you have a vehicle that's capable of openpilot longitudinal control, go to settings, and enable `Cruise Speed Override`. When engaging under approximately 43.2km/h (45-46 km/h on the HUD), dodgypilot will set its cruise speed to the vehicle's current travel speed.
 
 ## Credits
 Icon partially thanks to FallOutGirl9001 on DeviantArt.
