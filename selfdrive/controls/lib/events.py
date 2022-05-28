@@ -393,14 +393,6 @@ EVENTS: Dict[int, Dict[str, Union[Alert, AlertCallbackType]]] = {
       Priority.LOW, VisualAlert.none, AudibleAlert.prompt, 1.),
   },
 
-  EventName.zssMalfunction: {
-    ET.WARNING: Alert(
-      "ZSS Out of Tolerance",
-      "Re-enable openpilot or depress accelerator to re-use",
-      AlertStatus.userPrompt, AlertSize.mid,
-      Priority.MID, VisualAlert.none, AudibleAlert.promptRepeat, 1., creation_delay=1.5),
-  },
-
   EventName.preDriverDistracted: {
     ET.WARNING: Alert(
       "Pay Attention",
