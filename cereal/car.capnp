@@ -209,7 +209,7 @@ struct CarState {
   pcmStandstill @43 :Bool; # PCM State is 7
   meterLowBrightness @44 :Bool; # MFD Low Brightness Mode ON
   headlightON @45 :Bool; # Low Beam ON
-  meterDimmed @47 :Bool; # MFD Dimmer ON
+  meterDimmed @46 :Bool; # MFD Dimmer ON
 
   struct WheelSpeeds {
     # optional wheel speeds
