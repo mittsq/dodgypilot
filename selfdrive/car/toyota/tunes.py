@@ -24,8 +24,7 @@ class LatTunes(Enum):
   PID_L = 13
   PID_M = 14
   PID_N = 15
-  INDI_PRIUS_ZSS = 16
-  TORQUE = 17
+  TORQUE = 16
 
 
 ###### LONG ######
