@@ -33,8 +33,7 @@ def set_torque_tune(tune, MAX_LAT_ACCEL=2.5, FRICTION=.1):
 class LatControlTorque(LatControl):
   def __init__(self, CP, CI):
     super().__init__(CP, CI)
-    self.pid = PIDController(CP.lateralTuning.torque.kp, 
-                            (CP.lateralTuning.torque.kiBP, CP.lateralTuning.torque.kiV),
+    self.pid = PIDController(CP.lateralTuning.torque.kp, CP.lateralTuning.torque.ki,
                             k_f=CP.lateralTuning.torque.kf, pos_limit=1.0, neg_limit=-1.0)
     self.get_steer_feedforward = CI.get_steer_feedforward_function()
     self.steer_max = 1.0
