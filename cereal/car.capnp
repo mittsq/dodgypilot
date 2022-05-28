@@ -204,6 +204,13 @@ struct CarState {
   leftBlindspot @33 :Bool; # Is there something blocking the left lane change
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
 
+  engineRPM @41 :Float32; # Engine RPM
+  parkingLightON @42 :Bool; # Parking Light ON
+  pcmStandstill @43 :Bool; # PCM State is 7
+  meterLowBrightness @44 :Bool; # MFD Low Brightness Mode ON
+  headlightON @45 :Bool; # Low Beam ON
+  meterDimmed @47 :Bool; # MFD Dimmer ON
+
   struct WheelSpeeds {
     # optional wheel speeds
     fl @0 :Float32;
@@ -256,7 +263,7 @@ struct CarState {
   }
 
   errorsDEPRECATED @0 :List(CarEvent.EventName);
-  brakeLightsDEPRECATED @19 :Bool;
+  brakeLights @19 :Bool;
 }
 
 # ******* radar state @ 20hz *******
@@ -492,9 +499,10 @@ struct CarParams {
   struct LateralTorqueTuning {
     useSteeringAngle @0 :Bool;
     kp @1 :Float32;
-    ki @2 :Float32;
-    friction @3 :Float32;
-    kf @4 :Float32;
+    kiBP @2 :List(Float32);
+    kiV @3 :List(Float32);
+    friction @4 :Float32;
+    kf @5 :Float32;
   }
 
   struct LongitudinalPIDTuning {

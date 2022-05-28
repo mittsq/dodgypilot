@@ -24,6 +24,8 @@ class LatTunes(Enum):
   PID_L = 13
   PID_M = 14
   PID_N = 15
+  INDI_PRIUS_ZSS = 16
+  TORQUE = 17
 
 
 ###### LONG ######
@@ -42,15 +44,24 @@ def set_long_tune(tune, name):
     tune.deadzoneV = [0., .15]
     tune.kpBP = [0., 5., 35.]
     tune.kiBP = [0., 35.]
-    tune.kpV = [3.6, 2.4, 1.5]
+    tune.kpV = [2.8, 2.4, 1.5]
     tune.kiV = [0.54, 0.36]
   else:
     raise NotImplementedError('This longitudinal tune does not exist')
 
 
 ###### LAT ######
-def set_lat_tune(tune, name):
-  if name == LatTunes.INDI_PRIUS:
+def set_lat_tune(tune, name, MAX_LAT_ACCEL=2.5, FRICTION=.1, use_steering_angle=True):
+  if name == LatTunes.TORQUE:
+    tune.init('torque')
+    tune.torque.useSteeringAngle = use_steering_angle
+    tune.torque.kp = 1.0 / MAX_LAT_ACCEL
+    tune.torque.kf = 1.0 / MAX_LAT_ACCEL
+    tune.torque.kiV = [0.1 / MAX_LAT_ACCEL, 0.25 / MAX_LAT_ACCEL]
+    tune.torque.kiBP = [0., 21.]
+    tune.torque.friction = FRICTION
+
+  elif name == LatTunes.INDI_PRIUS:
     tune.init('indi')
     tune.indi.innerLoopGainBP = [0.]
     tune.indi.innerLoopGainV = [4.0]
@@ -61,16 +72,16 @@ def set_lat_tune(tune, name):
     tune.indi.actuatorEffectivenessBP = [0.]
     tune.indi.actuatorEffectivenessV = [1.0]
 
-  elif name == LatTunes.LQR_RAV4:
-    tune.init('lqr')
-    tune.lqr.scale = 1500.0
-    tune.lqr.ki = 0.05
-    tune.lqr.a = [0., 1., -0.22619643, 1.21822268]
-    tune.lqr.b = [-1.92006585e-04, 3.95603032e-05]
-    tune.lqr.c = [1., 0.]
-    tune.lqr.k = [-110.73572306, 451.22718255]
-    tune.lqr.l = [0.3233671, 0.3185757]
-    tune.lqr.dcGain = 0.002237852961363602
+  elif name == LatTunes.INDI_PRIUS_ZSS:
+    tune.init('indi')
+    tune.indi.innerLoopGainBP = [0.]
+    tune.indi.innerLoopGainV = [4.0]
+    tune.indi.outerLoopGainBP = [0.]
+    tune.indi.outerLoopGainV = [3.0]
+    tune.indi.timeConstantBP = [0.]
+    tune.indi.timeConstantV = [0.1]
+    tune.indi.actuatorEffectivenessBP = [0.]
+    tune.indi.actuatorEffectivenessV = [1.0]
 
   elif 'PID' in str(name):
     tune.init('pid')

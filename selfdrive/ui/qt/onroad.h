@@ -19,6 +19,8 @@ class OnroadHud : public QWidget {
   Q_PROPERTY(bool engageable MEMBER engageable NOTIFY valueChanged);
   Q_PROPERTY(bool dmActive MEMBER dmActive NOTIFY valueChanged);
   Q_PROPERTY(bool hideDM MEMBER hideDM NOTIFY valueChanged);
+  Q_PROPERTY(bool brakeLights MEMBER brakeLights NOTIFY valueChanged);
+  Q_PROPERTY(bool pcmStandstill MEMBER pcmStandstill NOTIFY valueChanged);
   Q_PROPERTY(int status MEMBER status NOTIFY valueChanged);
 
 public:
@@ -41,6 +43,8 @@ private:
   bool engageable = false;
   bool dmActive = false;
   bool hideDM = false;
+  bool brakeLights = false;
+  bool pcmStandstill = false;
   int status = STATUS_DISENGAGED;
 
 signals:
@@ -75,7 +79,10 @@ protected:
   void showEvent(QShowEvent *event) override;
   void updateFrameMat(int w, int h) override;
   void drawLaneLines(QPainter &painter, const UIState *s);
-  void drawLead(QPainter &painter, const cereal::ModelDataV2::LeadDataV3::Reader &lead_data, const QPointF &vd);
+  void drawLead(QPainter &painter, const UIScene &scene,
+                const cereal::ModelDataV2::LeadDataV3::Reader &lead_data,
+                const cereal::RadarState::LeadData::Reader &radar_lead_data,
+                const QPointF &vd, float vego);
   inline QColor redColor(int alpha = 255) { return QColor(201, 34, 49, alpha); }
   inline QColor whiteColor(int alpha = 255) { return QColor(255, 255, 255, alpha); }
 

@@ -35,9 +35,10 @@ class CarState(CarStateBase):
 
     ret.brakePressed = cp.vl["BRAKE_MODULE"]["BRAKE_PRESSED"] != 0
     ret.brakeHoldActive = cp.vl["ESP_CONTROL"]["BRAKE_HOLD_ACTIVE"] == 1
+    ret.brakeLights = bool(cp.vl["ESP_CONTROL"]['BRAKE_LIGHTS_ACC'] or cp.vl["BRAKE_MODULE"]["BRAKE_PRESSED"] != 0)
     if self.CP.enableGasInterceptor:
-      ret.gas = (cp.vl["GAS_SENSOR"]["INTERCEPTOR_GAS"] + cp.vl["GAS_SENSOR"]["INTERCEPTOR_GAS2"]) / 2.
-      ret.gasPressed = ret.gas > 15
+      ret.gas = (cp.vl["GAS_SENSOR"]["INTERCEPTOR_GAS"] + cp.vl["GAS_SENSOR"]["INTERCEPTOR_GAS2"]) // 2
+      ret.gasPressed = ret.gas > 805
     else:
       # TODO: find a new, common signal
       msg = "GAS_PEDAL_HYBRID" if (self.CP.flags & ToyotaFlags.HYBRID) else "GAS_PEDAL"
@@ -80,6 +81,11 @@ class CarState(CarStateBase):
 
     ret.steeringTorque = cp.vl["STEER_TORQUE_SENSOR"]["STEER_TORQUE_DRIVER"]
     ret.steeringTorqueEps = cp.vl["STEER_TORQUE_SENSOR"]["STEER_TORQUE_EPS"] * self.eps_torque_scale
+    ret.parkingLightON = cp.vl["LIGHT_STALK"]['PARKING_LIGHT'] == 1
+    ret.headlightON = cp.vl["LIGHT_STALK"]['LOW_BEAM'] == 1
+    ret.engineRPM = cp.vl["ENGINE_RPM"]['RPM']
+    ret.meterDimmed = cp.vl["BODY_CONTROL_STATE"]['METER_DIMMED'] == 1
+    ret.meterLowBrightness = cp.vl["BODY_CONTROL_STATE_2"]["METER_SLIDER_LOW_BRIGHTNESS"] == 1
     # we could use the override bit from dbc, but it's triggered at too high torque values
     ret.steeringPressed = abs(ret.steeringTorque) > STEER_THRESHOLD
     ret.steerFaultTemporary = cp.vl["EPS_STATUS"]["LKA_STATE"] not in (1, 5)
@@ -111,9 +117,13 @@ class CarState(CarStateBase):
       ret.cruiseState.standstill = self.pcm_acc_status == 7
     ret.cruiseState.enabled = bool(cp.vl["PCM_CRUISE"]["CRUISE_ACTIVE"])
     ret.cruiseState.nonAdaptive = cp.vl["PCM_CRUISE"]["CRUISE_STATE"] in (1, 2, 3, 4, 5, 6)
+    ret.pcmStandstill = self.pcm_acc_status == 7
 
     ret.genericToggle = bool(cp.vl["LIGHT_STALK"]["AUTO_HIGH_BEAM"])
     ret.stockAeb = bool(cp_cam.vl["PRE_COLLISION"]["PRECOLLISION_ACTIVE"] and cp_cam.vl["PRE_COLLISION"]["FORCE"] < -1e-5)
+
+    if self.CP.carFingerprint in TSS2_CAR:
+      ret.stockFcw = bool(cp_cam.vl["ACC_HUD"]["FCW"])
 
     ret.espDisabled = cp.vl["ESP_CONTROL"]["TC_DISABLED"] != 0
     # 2 is standby, 10 is active. TODO: check that everything else is really a faulty state
@@ -156,6 +166,13 @@ class CarState(CarStateBase):
       ("TURN_SIGNALS", "BLINKERS_STATE"),
       ("LKA_STATE", "EPS_STATUS"),
       ("AUTO_HIGH_BEAM", "LIGHT_STALK"),
+      # cydia2020's stuff
+      ("RPM", "ENGINE_RPM"),
+      ("METER_DIMMED", "BODY_CONTROL_STATE"),
+      ("METER_SLIDER_LOW_BRIGHTNESS", "BODY_CONTROL_STATE_2"),
+      ("BRAKE_LIGHTS_ACC", "ESP_CONTROL"),
+      ("PARKING_LIGHT", "LIGHT_STALK"),
+      ("LOW_BEAM", "LIGHT_STALK"),
     ]
 
     checks = [
@@ -163,6 +180,7 @@ class CarState(CarStateBase):
       ("LIGHT_STALK", 1),
       ("BLINKERS_STATE", 0.15),
       ("BODY_CONTROL_STATE", 3),
+      ("BODY_CONTROL_STATE_2", 3),
       ("ESP_CONTROL", 3),
       ("EPS_STATUS", 25),
       ("BRAKE_MODULE", 40),
@@ -170,6 +188,7 @@ class CarState(CarStateBase):
       ("STEER_ANGLE_SENSOR", 80),
       ("PCM_CRUISE", 33),
       ("STEER_TORQUE_SENSOR", 50),
+      ("ENGINE_RPM", 100),
     ]
 
     if CP.flags & ToyotaFlags.HYBRID:
@@ -220,7 +239,13 @@ class CarState(CarStateBase):
     ]
 
     if CP.carFingerprint in TSS2_CAR:
-      signals.append(("ACC_TYPE", "ACC_CONTROL"))
-      checks.append(("ACC_CONTROL", 33))
+      signals += [
+        ("ACC_TYPE", "ACC_CONTROL"),
+        ("FCW", "ACC_HUD"),
+      ]
+      checks += [
+        ("ACC_CONTROL", 33),
+        ("ACC_HUD", 1),
+      ]
 
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, 2)

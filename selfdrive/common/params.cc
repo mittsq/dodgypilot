@@ -88,9 +88,9 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"AthenadUploadQueue", PERSISTENT},
     {"CalibrationParams", PERSISTENT},
     {"CarBatteryCapacity", PERSISTENT},
-    {"CarParams", CLEAR_ON_MANAGER_START | CLEAR_ON_IGNITION_ON},
-    {"CarParamsCache", CLEAR_ON_MANAGER_START},
-    {"CarVin", CLEAR_ON_MANAGER_START | CLEAR_ON_IGNITION_ON},
+    {"CarParams", PERSISTENT},
+    {"CarParamsCache", PERSISTENT},
+    {"CarVin", PERSISTENT},
     {"CompletedTrainingVersion", PERSISTENT},
     {"ControlsReady", CLEAR_ON_MANAGER_START | CLEAR_ON_IGNITION_ON},
     {"CurrentRoute", CLEAR_ON_MANAGER_START | CLEAR_ON_IGNITION_ON},
@@ -120,7 +120,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"InstallDate", PERSISTENT},
     {"IsDriverViewEnabled", CLEAR_ON_MANAGER_START},
     {"IsEngaged", PERSISTENT},
-    {"IsLdwEnabled", PERSISTENT},
+    {"IsLdwEnabled", CLEAR_ON_MANAGER_START | CLEAR_ON_IGNITION_ON},
     {"IsMetric", PERSISTENT},
     {"IsOffroad", CLEAR_ON_MANAGER_START},
     {"IsOnroad", PERSISTENT},
@@ -177,6 +177,13 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"Offroad_TemperatureTooHigh", CLEAR_ON_MANAGER_START},
     {"Offroad_UnofficialHardware", CLEAR_ON_MANAGER_START},
     {"Offroad_UpdateFailed", CLEAR_ON_MANAGER_START},
+    // cydia2020 params
+    {"AllowNonAdaptiveCruise", PERSISTENT},
+    {"CarBrightnessControl", PERSISTENT},
+    {"SmartDSULongToggle", PERSISTENT},
+    {"ToyotaLongToggle_Allow", CLEAR_ON_IGNITION_ON},
+    {"DisplayRadarInfo", PERSISTENT},
+    {"CruiseSpeedRewrite", PERSISTENT},
 };
 
 } // namespace
