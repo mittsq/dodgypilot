@@ -39,19 +39,20 @@ You do everything at your own risk.
 
 ## Features
 This fork:
-1. Disables openpilot sounds (Car will chime if op wants attention.).
+1. Disables openpilot sounds (Car will chime differently based on the severity of the alert if dodgypilot wants attention.).
 2. Supports ZSS.
 3. Disables the uploader. (UI API still active to maintain ease of maintenance.)
 4. Keeps factory LDA on Toyota/Lexus when openpilot is not enabled.
-5. Displays radarState, ~~carState and deviceState~~ readings on the onroad UI. (Partially removed for now, I'll port this back once I'm familiar enough with Qt.)
+5. Displays radarState readings on the onroad UI.
 6. Improves screen brightness handling by linking it with your headlights. To use this feature, go to settings, and turn on `Use Linked Brightness`.
 7. Allows openpilot to be engaged even if adaptive cruise control is disabled. To use this feature, go to settings, and turn on `Allow Normal Cruise Control`.
 8. Allows switching between openpilot Long and stock ACC, requires SmartDSU. To use this, go to settings, and turn on `Use Stock ACC`.
 9. Does not clear car parameters on startup, this improves startup speed and helps with params faults on startup. To reset car parameters, go to settings, and press `RESET CAR RECOGNITION`.
-10. NEOS 20.
-11. Improves Prii's lateral control with the new torque controller.
-12. Improves stop-and-go performance, reduce acceleration oscillation.
-13. Enables low cruise speed override, stolen from DragonPilot. To use this, ensure that you have a vehicle that's capable of openpilot longitudinal control, go to settings, and enable `Cruise Speed Override`. When engaging under approximately 43.2km/h (45-46 km/h on the HUD), dodgypilot will set its cruise speed to the vehicle's current travel speed.
+10. Improves Prii's lateral control with the new torque controller.
+11. Improves stop-and-go performance, reduce acceleration oscillation.
+12. Enables low cruise speed override, stolen from DragonPilot. To use this, ensure that you have a vehicle that's capable of openpilot longitudinal control, go to settings, and enable `Cruise Speed Override`. When engaging under approximately 43.2km/h (45-46 km/h on the HUD), dodgypilot will set its cruise speed to the vehicle's current travel speed.
+13. Allows the driver to change openpilot's follow distance on Toyota/Lexus with openpilot longitudinal control (and SmartDSU if the user has a TSS-P vehicle, please use [this](https://github.com/wocsor/panda/commit/0c10024d5250c737d5ae6b00f8d7c3341896b71f) firmware for your SmartDSU). Stolen from @krkeegan.
+14. Respects the Powertrain Control Module, and does not cancel cruise control when it is not necessary (e.g. brake press).
 
 ## Credits
 Icon partially thanks to FallOutGirl9001 on DeviantArt.
