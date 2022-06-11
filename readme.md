@@ -42,7 +42,7 @@ This fork:
 1. Disables openpilot sounds (Car will chime differently based on the severity of the alert if dodgypilot wants attention.).
 2. Supports ZSS.
 3. Disables the uploader. (UI API still active to maintain ease of maintenance.)
-4. Keeps factory LDA on Toyota/Lexus when openpilot is not enabled.
+4. Keeps factory LDA and SWS on Toyota/Lexus.
 5. Displays radarState readings on the onroad UI.
 6. Improves screen brightness handling by linking it with your headlights. To use this feature, go to settings, and turn on `Use Linked Brightness`.
 7. Allows openpilot to be engaged even if adaptive cruise control is disabled. To use this feature, go to settings, and turn on `Allow Normal Cruise Control`.
