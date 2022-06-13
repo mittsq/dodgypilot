@@ -24,6 +24,7 @@ class CarController:
     self.frame = 0
     self.last_steer = 0
     self.alert_active = False
+    self.last_standstill = False
     self.standstill_req = False
     self.steer_rate_limited = False
     self.last_off_frame = 0
@@ -89,13 +90,15 @@ class CarController:
       apply_steer_req = 0
       self.steer_rate_counter = 0
 
-    # resume request
-    if actuators.accel <= - 0.8 and CS.out.standstill and self.CP.carFingerprint not in NO_STOP_TIMER_CAR:
+    # on entering standstill, send standstill request
+    if CS.out.standstill and not self.last_standstill and self.CP.carFingerprint not in NO_STOP_TIMER_CAR:
       self.standstill_req = True
-    else:
+    if CS.pcm_acc_status != 8:
+      # pcm entered standstill or it's disabled
       self.standstill_req = False
 
     self.last_steer = apply_steer
+    self.last_standstill = CS.out.standstill
 
     can_sends = []
 
