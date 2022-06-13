@@ -29,7 +29,7 @@ rm -rf $BUILD_DIR
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 git init
-git remote add origin git@github.com:cydia2020/dodgypilot.git
+git remote add origin git@github.com:mittsq/dodgypilot.git
 git fetch origin $RELEASE_BRANCH
 git checkout --orphan $RELEASE_BRANCH
 
