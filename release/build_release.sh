@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-export GIT_COMMITTER_NAME="cydia2020"
-export GIT_COMMITTER_EMAIL="12470297+cydia2020@users.noreply.github.com"
-export GIT_AUTHOR_NAME="cydia2020"
-export GIT_AUTHOR_EMAIL="12470297+cydia2020@users.noreply.github.com"
+export GIT_COMMITTER_NAME="Sumit Basak"
+export GIT_COMMITTER_EMAIL="basaksum@umich.edu"
+export GIT_AUTHOR_NAME="Sumit Basak"
+export GIT_AUTHOR_EMAIL="basaksum@umich.edu"
 
 export GIT_SSH_COMMAND="ssh -i /data/gitkey"
 
@@ -17,7 +17,7 @@ if [ ! -z "$CLEAN" ]; then
 
   # Create git repo
   git init
-  git remote add origin git@github.com:cydia2020/dodgypilot.git
+  git remote add origin git@github.com:mittsq/dodgypilot.git
   git fetch origin devel-staging
 else
   cd /data/openpilot
@@ -86,7 +86,7 @@ git commit --amend -m "openpilot v$VERSION"
 # Print committed files that are normally gitignored
 #git status --ignored
 
-git remote set-url origin git@github.com:cydia2020/dodgypilot.git
+git remote set-url origin git@github.com:mittsq/dodgypilot.git
 
 # Push to release2-staging
 git push -f origin release2-staging
