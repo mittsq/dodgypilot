@@ -231,13 +231,10 @@ void OnroadHud::paintEvent(QPaintEvent *event) {
 
   // current speed
   configFont(p, "Open Sans", 176, "Bold");
-  drawText(p, rect().center().x(), 210, speed);
+  QColor color(255, brakeLights ? 0 : 255, brakeLights ? 0 : 255, 255);
+  drawColorText(p, rect().center().x(), 210, speed, color);
   configFont(p, "Open Sans", 66, "Regular");
   drawText(p, rect().center().x(), 290, speedUnit, 200);
-  if (brakeLights) {
-    configFont(p, "Open Sans", 66, "Regular");
-    drawText(p, rect().center().x() + 128, 290, "🟥", 200);
-  }
 
   // engage-ability icon
   if (engageable) {
@@ -248,12 +245,17 @@ void OnroadHud::paintEvent(QPaintEvent *event) {
 }
 
 void OnroadHud::drawText(QPainter &p, int x, int y, const QString &text, int alpha) {
+  QColor white(0xff, 0xff, 0xff, alpha);
+  drawColorText(p, x, y, text, white);
+}
+
+void OnroadHud::drawColorText(QPainter &p, int x, int y, const QString &text, QColor &color) {
   QFontMetrics fm(p.font());
   QRect init_rect = fm.boundingRect(text);
   QRect real_rect = fm.boundingRect(init_rect, 0, text);
   real_rect.moveCenter({x, y - real_rect.height() / 2});
 
-  p.setPen(QColor(0xff, 0xff, 0xff, alpha));
+  p.setPen(color);
   p.drawText(real_rect.x(), real_rect.bottom(), text);
 }
 
