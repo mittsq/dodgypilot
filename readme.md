@@ -20,7 +20,7 @@ Dodgypilot can only be installed after you have enabled ssh on your device.
 
 To install this fork, simply ssh into your comma device, `cd /data/openpilot`, `git remote add cydia2020 https://github.com/cydia2020/dodgypilot`, then `git checkout cydia2020/release2-staging`.
 
-## Prepare Your Vehicle
+## Preparing Your Vehicle
 If you have a TSS-P Vehicle, it is recommended that you put together or buy a SmartDSU from Taobao or @ErichMoraga. It will lessen your chance of crashing while you are using dodgypilot. A SmartDSU also enables features such as follow distance adjustment and switching between openpilot and stock longitudinal.
 
 ## Warnings and ToS
