@@ -47,6 +47,7 @@ This fork:
 11. Improves stop-and-go performance, reduce acceleration oscillation.
 12. Allows low cruise speed override (stolen from DragonPilot). To use this, ensure that you have a vehicle that's capable of openpilot longitudinal control, go to settings, and enable `Cruise Speed Override`. When engaging under approximately 43.2km/h (45-46 km/h on the HUD), dodgypilot will set its cruise speed to the vehicle's current travel speed.
 13. Allows the driver to change openpilot's follow distance on Toyota/Lexus with openpilot longitudinal control (and SmartDSU if the user has a TSS-P vehicle, please use [this](https://github.com/wocsor/panda/commit/0c10024d5250c737d5ae6b00f8d7c3341896b71f) firmware for your SmartDSU). (Stolen from @krkeegan)
+![Distance Indicator](/follow_distance_indicator.png)
 14. Respects the Powertrain Control Module, and does not cancel cruise control when it is not necessary. (e.g. brake press)
 
 ## Credits
