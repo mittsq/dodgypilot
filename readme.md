@@ -49,6 +49,7 @@ This fork:
 13. Allows the driver to change openpilot's follow distance on Toyota/Lexus with openpilot longitudinal control (and SmartDSU if the user has a TSS-P vehicle, please use [this](https://github.com/wocsor/panda/commit/0c10024d5250c737d5ae6b00f8d7c3341896b71f) firmware for your SmartDSU). (Stolen from @krkeegan)(Image below is an aRTiSt's iMprEsSiNn)
 ![Distance Indicator](/follow_distance_indicator.png)
 14. Respects the Powertrain Control Module, and does not cancel cruise control when it is not necessary. (e.g. brake press)
+15. Allows the device's display to be turned off after 60 seconds of inactivity (no touch input). (Stolen from @sunnyhaibin)
 
 ## Support dodgypilot
 Thank you for using dodgypilot, if you would like to buy me a coffee, please use the link below.
