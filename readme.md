@@ -50,5 +50,10 @@ This fork:
 ![Distance Indicator](/follow_distance_indicator.png)
 14. Respects the Powertrain Control Module, and does not cancel cruise control when it is not necessary. (e.g. brake press)
 
+## Support dodgypilot
+Thank you for using dodgypilot, if you would like to buy me a coffee, please use the link below.
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?business=ZE32GX6TZNMCG&no_recurring=1&item_name=Buy+me+a+coffee+and+support+the+development+and+maintenance+of+dodgypilot.&currency_code=AUD)
+
 ## Credits
 Icon partially thanks to FallOutGirl9001 on DeviantArt.
