@@ -21,6 +21,10 @@ Dodgypilot can only be installed after you have enabled ssh on your device.
 To install this fork, simply ssh into your comma device, `cd /data/openpilot`, `git remote add cydia2020 https://github.com/cydia2020/dodgypilot`, then `git checkout cydia2020/release2-staging`.
 
 ## Preparing Your Vehicle
+‼️ READ THIS BEFORE INSTALLING ‼️
+
+IMPORTANT: You must turn off the vehicle's stock Steering Assist feature for dodgypilot to engage. To turn Steering Assist off, go to your car's settings screen, highlight the steering assist toggle, then press `OK` once to toggle it off. Toyota has a [helpful guide](https://www.youtube.com/watch?v=qEvAua6oobA) on this.
+
 If you have a TSS-P Vehicle, it is recommended that you put together or buy a SmartDSU from Taobao or @ErichMoraga. It will lessen your chance of crashing while you are using dodgypilot. A SmartDSU also enables features such as follow distance adjustment and switching between openpilot and stock longitudinal.
 
 ## Warnings and ToS
