@@ -87,11 +87,12 @@ class CarController:
       apply_steer_req = 0
       self.steer_rate_counter = 0
 
-    # This logic is broken, TODO: FIXME
-    # on entering standstill, send standstill request
-    if CS.out.standstill and not self.last_standstill and self.CP.carFingerprint not in NO_STOP_TIMER_CAR:
+    lead_vehicle_stopped = hud_control.leadVelocity < 0.5 and hud_control.leadVisible  # Give radar some room for error
+
+    # cydia2020 - mimic stock behaviour, send standstill if the lead vehicle is stopped, else release
+    if CS.out.standstill and lead_vehicle_stopped and self.CP.carFingerprint not in NO_STOP_TIMER_CAR:
       self.standstill_req = True
-    if CS.pcm_acc_status != 8:
+    else:
       # pcm entered standstill or it's disabled
       self.standstill_req = False
 
@@ -123,8 +124,6 @@ class CarController:
     # record frames
     if not CC.enabled:
       self.last_off_frame = self.frame
-
-    lead_vehicle_stopped = hud_control.leadVelocity < 0.5 and hud_control.leadVisible  # Give radar some room for error
 
     # Handle permit braking logic
     if (actuators.accel > 0.35) or not CC.enabled or (0.5 / DT_CTRL > (self.frame - self.last_off_frame) and not lead_vehicle_stopped):
