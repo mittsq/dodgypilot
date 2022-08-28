@@ -152,7 +152,7 @@ class CarController:
       self.gas = interceptor_gas_cmd
 
     # LKAS_HUD is on a different address on the Prius V, don't send to avoid problems
-    if self.frame % 25 == 0 and self.CP.carFingerprint != CAR.PRIUS_V:
+    if self.frame % 10 == 0 and self.CP.carFingerprint != CAR.PRIUS_V:
       can_sends.append(create_ui_command(self.packer, alert_prompt, alert_prompt_repeat, alert_immediate, hud_control.leftLaneVisible,
                                          hud_control.rightLaneVisible, CS.sws_toggle, CS.sws_sensitivity, CS.sws_buzzer, CS.sws_fld, 
                                          CS.sws_warning, CS.lda_left_lane, CS.lda_right_lane, CS.lda_sa_toggle, CS.lkas_status,
