@@ -27,7 +27,6 @@ class CarController:
     self.standstill_req = False
     self.steer_rate_limited = False
     self.last_off_frame = 0
-    self.last_gas_press_frame = 0
     self.permit_braking = True
 
     self.steer_rate_counter = 0
@@ -124,11 +123,11 @@ class CarController:
     # record frames
     if not CC.enabled:
       self.last_off_frame = self.frame
-    if CS.out.gasPressed:
-      self.last_gas_press_frame = self.frame
+
+    lead_vehicle_stopped = hud_control.leadVelocity < 0.5 and hud_control.leadVisible  # Give radar some room for error
 
     # Handle permit braking logic
-    if actuators.accel > 0.35:
+    if (actuators.accel > 0.35) or not CC.enabled or (0.5 / DT_CTRL > (self.frame - self.last_off_frame) and not lead_vehicle_stopped):
       self.permit_braking = False
     else:
       self.permit_braking = True
@@ -136,7 +135,6 @@ class CarController:
     # we can spam can to cancel the system even if we are using lat only control
     if (self.frame % 3 == 0 and self.CP.openpilotLongitudinalControl) or pcm_cancel_cmd:
       lead = hud_control.leadVisible or (CS.out.vEgo < 12. and (not CS.out.standstill or CC.enabled))  # at low speed we always assume the lead is present so ACC can be engaged
-      lead_vehicle_stopped = hud_control.leadVelocity < 0.5 and hud_control.leadVisible  # Give radar some room for error
 
       # Lexus IS uses a different cancellation message
       if pcm_cancel_cmd and self.CP.carFingerprint in (CAR.LEXUS_IS, CAR.LEXUS_RC):
