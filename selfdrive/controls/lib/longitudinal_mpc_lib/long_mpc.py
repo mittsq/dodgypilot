@@ -346,7 +346,7 @@ class LongitudinalMpc:
 
   def update_TF(self, carstate):
     if carstate.pcmFollowDistance == 3:
-      self.desired_TF = T_FOLLOW - 0.25
+      self.desired_TF = T_FOLLOW - 0.35
       self.desired_stop_distance = STOP_DISTANCE
 
     elif carstate.pcmFollowDistance == 2:
@@ -354,7 +354,7 @@ class LongitudinalMpc:
       self.desired_stop_distance = STOP_DISTANCE
 
     elif carstate.pcmFollowDistance == 1:
-      self.desired_TF = T_FOLLOW + 0.25
+      self.desired_TF = T_FOLLOW + 0.35
       self.desired_stop_distance = STOP_DISTANCE
 
     else:
