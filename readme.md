@@ -55,6 +55,7 @@ This fork:
 14. Respects the Powertrain Control Module, and does not cancel cruise control when it is not necessary. (e.g. brake press)
 15. Allows the device's display to be turned off after 60 seconds of inactivity (no touch input). (Stolen from @sunnyhaibin)
 16. Includes a vehicle selection feature, allows users without access to a comma power to set the car model manually. (stolen from @sunnypilot) (Settings -> Fingerprint)
+17. Able to utilise the comma pedal to enable stop-and-go with stock longitudinal on TSS-P cars.
 
 ## Support dodgypilot
 Thank you for using dodgypilot, if you would like to buy me a coffee, please use the link below.
