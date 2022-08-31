@@ -172,6 +172,14 @@ DodgypilotPanel::DodgypilotPanel(SettingsWindow *parent) : ListWidget(parent) {
   std::vector<std::tuple<QString, QString, QString, QString>> toggles{
     // screen off timer
     {
+      "IsDMEnabled",
+      "System: Enable Driver Monitoring",
+      "Use the device's front camera to monitor the driver, and prompt the driver if the driver is distracted while openpilot is engaged.",
+      "../assets/offroad/icon_dm.png",
+    },
+
+    // screen off timer
+    {
       "ScreenOffTimer",
       "UI: Turn Off Display After 30 Seconds",
       "Turn off the device's display after going 'onroad' for 30 seconds.",
