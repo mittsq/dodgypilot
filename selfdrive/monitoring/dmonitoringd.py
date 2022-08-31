@@ -21,6 +21,7 @@ def dmonitoringd_thread(sm=None, pm=None):
     sm = messaging.SubMaster(['driverState', 'liveCalibration', 'carState', 'controlsState', 'modelV2'], poll=['driverState'])
 
   driver_status = DriverStatus(rhd=Params().get_bool("IsRHD"))
+  is_dm_enabled = Params().get_bool("IsDMEnabled")
 
   sm['liveCalibration'].calStatus = Calibration.INVALID
   sm['liveCalibration'].rpyCalib = [0, 0, 0]
@@ -51,7 +52,9 @@ def dmonitoringd_thread(sm=None, pm=None):
 
     # Get data from dmonitoringmodeld
     events = Events()
-    driver_status.update_states(sm['driverState'], sm['liveCalibration'].rpyCalib, sm['carState'].vEgo, sm['controlsState'].enabled)
+
+    if is_dm_enabled:
+      driver_status.update_states(sm['driverState'], sm['liveCalibration'].rpyCalib, sm['carState'].vEgo, sm['controlsState'].enabled)
 
     # Block engaging after max number of distrations
     if driver_status.terminal_alert_cnt >= driver_status.settings._MAX_TERMINAL_ALERTS or \
@@ -59,7 +62,8 @@ def dmonitoringd_thread(sm=None, pm=None):
       events.add(car.CarEvent.EventName.tooDistracted)
 
     # Update events from driver state
-    driver_status.update_events(events, driver_engaged, sm['controlsState'].enabled, sm['carState'].standstill)
+    if is_dm_enabled:
+      driver_status.update_events(events, driver_engaged, sm['controlsState'].enabled, sm['carState'].standstill)
 
     # build driverMonitoringState packet
     dat = messaging.new_message('driverMonitoringState')
