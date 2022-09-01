@@ -4,6 +4,7 @@ This fork (mittsq) changes the following four things:
 * Changes the logo to not a doge
 * Adds nudgless lane changes starting at 52 mph
 * Makes the speed turn red on brake instead of using an emoji
+* Adds the stop-and-go hack
 
 Everything else is unchanged from the [parent repository](https://github.com/cydia2020/dodgypilot).
 Since there is no release branch, install `c2` instead; it will compile on-device.
