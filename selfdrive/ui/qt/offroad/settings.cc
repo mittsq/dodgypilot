@@ -157,17 +157,6 @@ TogglesPanel::TogglesPanel(SettingsWindow *parent) : ListWidget(parent) {
 DodgypilotPanel::DodgypilotPanel(SettingsWindow *parent) : ListWidget(parent) {
   Params params;
 
-  // reset car recognition
-  auto resetFpBtn = new ButtonControl("Reset Car Parameters", "RESET", "Dodgypilot will not re-recognise car by default when the device is powered off, use this to reset car recognition.");
-  connect(resetFpBtn, &ButtonControl::clicked, [&]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to reset car parameters?", this)) {
-      params.remove("CarParams");
-      params.remove("CarParamsCache");
-      params.remove("CarVin");
-    }
-  });
-  addItem(resetFpBtn);
-
   // param, title, desc, icon
   std::vector<std::tuple<QString, QString, QString, QString>> toggles{
     // screen off timer
