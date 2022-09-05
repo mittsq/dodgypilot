@@ -167,6 +167,14 @@ DodgypilotPanel::DodgypilotPanel(SettingsWindow *parent) : ListWidget(parent) {
       "../assets/offroad/icon_dm.png",
     },
 
+    // e2e long
+    {
+      "EndToEndLong",
+      "System: End-to-End ACC (Alpha)",
+      "Let the driving model control the gas and brakes, openpilot will drive as it thinks a human would. Super experimental.",
+      "../assets/offroad/icon_road.png",
+    },
+
     // screen off timer
     {
       "ScreenOffTimer",

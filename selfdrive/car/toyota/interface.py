@@ -353,8 +353,13 @@ class CarInterface(CarInterfaceBase):
         # while in standstill, send a user alert
         events.add(EventName.manualRestart)
 
+    # cydia2020 - alert if stock lkas is turned on to prevent LDA from turning itself off
     if self.CS.lda_sa_toggle == 1:
       events.add(car.CarEvent.EventName.invalidLkasSetting)
+
+    # cydia2020 - disable distance adjustment when using e2e long
+    if self.CS.distance_btn == 2:
+      events.add(car.CarEvent.EventName.followDistanceAdjustmentDisabled)
 
     ret.events = events.to_msg()
 

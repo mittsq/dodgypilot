@@ -487,6 +487,14 @@ EVENTS: Dict[int, Dict[str, Union[Alert, AlertCallbackType]]] = {
       Priority.LOW, VisualAlert.none, AudibleAlert.none, .1),
   },
 
+  EventName.followDistanceAdjustmentDisabled: {
+    ET.WARNING: Alert(
+      "Distance Adjustment Unavailable",
+      "Unable To Adjust Follow Distance While Using e2e Long",
+      AlertStatus.normal, AlertSize.mid,
+      Priority.LOW, VisualAlert.none, AudibleAlert.none, 5.),
+  },
+
   EventName.steerSaturated: {
     ET.WARNING: Alert(
       "Take Control",

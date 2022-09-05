@@ -2,6 +2,7 @@ from cereal import car
 from common.conversions import Conversions as CV
 from common.numpy_fast import mean
 from common.filter_simple import FirstOrderFilter
+from common.params import Params
 from common.realtime import DT_CTRL
 from opendbc.can.can_define import CANDefine
 from opendbc.can.parser import CANParser
@@ -12,6 +13,7 @@ from selfdrive.car.toyota.values import ToyotaFlags, CAR, DBC, STEER_THRESHOLD, 
 class CarState(CarStateBase):
   def __init__(self, CP):
     super().__init__(CP)
+    params = Params()
     can_define = CANDefine(DBC[CP.carFingerprint]["pt"])
     self.shifter_values = can_define.dv["GEAR_PACKET"]["GEAR"]
     self.eps_torque_scale = EPS_SCALE[CP.carFingerprint] / 100.
@@ -23,6 +25,7 @@ class CarState(CarStateBase):
     self.angle_offset = FirstOrderFilter(None, 60.0, DT_CTRL, initialized=False)
     self.has_zss = CP.hasZss
     self.cruise_active_prev = False
+    self.allow_distance_adjustment = False if params.get_bool('EndToEndLong') else True
 
     self.low_speed_lockout = False
     self.acc_type = 1
@@ -111,9 +114,9 @@ class CarState(CarStateBase):
 
     if self.CP.carFingerprint in TSS2_CAR:
       self.acc_type = cp_cam.vl["ACC_CONTROL"]["ACC_TYPE"]
-      self.distance_btn = 1 if cp_cam.vl["ACC_CONTROL"]["DISTANCE"] == 1 else 0
+      self.distance_btn = 2 if (cp_cam.vl["ACC_CONTROL"]["DISTANCE"] == 1 and not self.allow_distance_adjustment) else 1 if (cp_cam.vl["ACC_CONTROL"]["DISTANCE"] == 1 and self.allow_distance_adjustment) else 0
     elif self.CP.smartDsu:
-      self.distance_btn = 1 if cp.vl["SDSU"]["FD_BUTTON"] == 1 else 0
+      self.distance_btn = 2 if (cp.vl["SDSU"]["FD_BUTTON"] == 1 and not self.allow_distance_adjustment) else 1 if (cp.vl["SDSU"]["FD_BUTTON"] == 1 and self.allow_distance_adjustment) else 0
     else:
       self.distance_btn = 0
 
