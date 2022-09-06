@@ -233,7 +233,7 @@ class CarState(CarStateBase):
       ("LIGHT_STALK", 1),
       ("BLINKERS_STATE", 0.15),
       ("BODY_CONTROL_STATE", 3),
-      ("BODY_CONTROL_STATE_2", 3),
+      ("BODY_CONTROL_STATE_2", 2),
       ("ESP_CONTROL", 3),
       ("EPS_STATUS", 25),
       ("BRAKE_MODULE", 40),
