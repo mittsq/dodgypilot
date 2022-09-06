@@ -106,10 +106,15 @@ class CarState(CarStateBase):
     if self.CP.carFingerprint in (CAR.LEXUS_IS, CAR.LEXUS_RC):
       ret.cruiseState.available = cp.vl["DSU_CRUISE"]["MAIN_ON"] != 0
       ret.cruiseState.speed = cp.vl["DSU_CRUISE"]["SET_SPEED"] * CV.KPH_TO_MS
-      ret.pcmFollowDistance = 2
     else:
       ret.cruiseState.available = cp.vl["PCM_CRUISE_2"]["MAIN_ON"] != 0
       ret.cruiseState.speed = cp.vl["PCM_CRUISE_2"]["SET_SPEED"] * CV.KPH_TO_MS
+
+    if self.CP.carFingerprint in (CAR.LEXUS_IS, CAR.LEXUS_RC):
+      ret.pcmFollowDistance = 3
+    elif not self.allow_distance_adjustment:
+      ret.pcmFollowDistance = 3
+    else:
       ret.pcmFollowDistance = cp.vl["PCM_CRUISE_2"]["PCM_FOLLOW_DISTANCE"]
 
     if self.CP.carFingerprint in TSS2_CAR:
