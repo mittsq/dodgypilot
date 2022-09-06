@@ -151,17 +151,17 @@ class CarController:
       can_sends.append(create_gas_interceptor_command(self.packer, interceptor_gas_cmd, self.frame // 2))
       self.gas = interceptor_gas_cmd
 
-    # LKAS_HUD is on a different address on the Prius V, don't send to avoid problems
-    if self.frame % 10 == 0 and self.CP.carFingerprint != CAR.PRIUS_V:
-      can_sends.append(create_ui_command(self.packer, alert_prompt, alert_prompt_repeat, alert_immediate, hud_control.leftLaneVisible,
-                                         hud_control.rightLaneVisible, CS.sws_toggle, CS.sws_sensitivity, CS.sws_buzzer, CS.sws_fld, 
-                                         CS.sws_warning, CS.lda_left_lane, CS.lda_right_lane, CS.lda_sa_toggle, CS.lkas_status,
-                                         CS.lda_speed_too_low, CS.lda_on_message, CS.lda_sensitivity, CS.ldw_exist, CC.enabled, CS.sws_beeps,
-                                         CS.lda_take_control, CS.lda_adjusting_camera, CS.lda_unavailable_quiet, CS.lda_unavailable, 
-                                         CS.lda_malfunction, CS.lda_fcb))
+    if self.CP.carFingerprint != CAR.PRIUS_V:
+      if self.frame % 10 == 0:
+        can_sends.append(create_ui_command(self.packer, alert_prompt, alert_prompt_repeat, alert_immediate, hud_control.leftLaneVisible,
+                                           hud_control.rightLaneVisible, CS.sws_toggle, CS.sws_sensitivity, CS.sws_buzzer, CS.sws_fld, 
+                                           CS.sws_warning, CS.lda_left_lane, CS.lda_right_lane, CS.lda_sa_toggle, CS.lkas_status,
+                                           CS.lda_speed_too_low, CS.lda_on_message, CS.lda_sensitivity, CS.ldw_exist, CC.enabled, CS.sws_beeps,
+                                           CS.lda_take_control, CS.lda_adjusting_camera, CS.lda_unavailable_quiet, CS.lda_unavailable, 
+                                           CS.lda_malfunction, CS.lda_fcb))
 
-    if self.frame % 100 == 0 and self.CP.enableDsu:
-      can_sends.append(create_fcw_command(self.packer, fcw_alert))
+      if self.frame % 10 == 0 and self.CP.enableDsu:
+        can_sends.append(create_fcw_command(self.packer, fcw_alert))
 
     # *** static msgs ***
     for addr, cars, bus, fr_step, vl in STATIC_DSU_MSGS:
