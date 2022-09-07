@@ -159,7 +159,7 @@ DodgypilotPanel::DodgypilotPanel(SettingsWindow *parent) : ListWidget(parent) {
 
   // param, title, desc, icon
   std::vector<std::tuple<QString, QString, QString, QString>> toggles{
-    // screen off timer
+    // DM toggle
     {
       "IsDMEnabled",
       "System: Enable Driver Monitoring",
@@ -172,6 +172,14 @@ DodgypilotPanel::DodgypilotPanel(SettingsWindow *parent) : ListWidget(parent) {
       "EndToEndLong",
       "System: End-to-End ACC (Alpha)",
       "Let the driving model control the gas and brakes, openpilot will drive as it thinks a human would. Super experimental.",
+      "../assets/offroad/icon_road.png",
+    },
+
+    // ignore charging error
+    {
+      "IsChargerFaultIgnored",
+      "System: Ignore Low Battery Warning",
+      "Ignore charger error and remove low battery warning. Only use this if you are experiencing low battery issues.",
       "../assets/offroad/icon_road.png",
     },
 
