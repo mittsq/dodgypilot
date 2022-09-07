@@ -180,7 +180,7 @@ DodgypilotPanel::DodgypilotPanel(SettingsWindow *parent) : ListWidget(parent) {
       "IsChargerFaultIgnored",
       "System: Ignore Low Battery Warning",
       "Ignore charger error and remove low battery warning. Only use this if you are experiencing low battery issues.",
-      "../assets/offroad/icon_road.png",
+      "../assets/offroad/icon_no_battery.png",
     },
 
     // screen off timer
