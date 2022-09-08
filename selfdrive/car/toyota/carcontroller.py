@@ -1,6 +1,7 @@
 from cereal import car
 from common.realtime import DT_CTRL
 from common.numpy_fast import clip, interp
+from common.params import Params
 from selfdrive.car import apply_toyota_steer_torque_limits, create_gas_interceptor_command, make_can_msg
 from selfdrive.car.toyota.toyotacan import create_steer_command, create_ui_command, \
                                            create_accel_command, create_acc_cancel_command, \
@@ -14,6 +15,8 @@ AudibleAlert = car.CarControl.HUDControl.AudibleAlert
 # constants for fault workaround
 MAX_STEER_RATE = 100  # deg/s
 MAX_STEER_RATE_FRAMES = 18
+
+params = Params()
 
 # EPS allows user torque above threshold for 50 frames before permanently faulting
 MAX_USER_TORQUE = 500
@@ -30,7 +33,7 @@ class CarController:
     self.steer_rate_limited = False
     self.last_off_frame = 0
     self.permit_braking = True
-
+    self.e2e_long = params.get_bool("EndToEndLong")
     self.steer_rate_counter = 0
 
     self.packer = CANPacker(dbc_name)
@@ -90,13 +93,15 @@ class CarController:
       apply_steer_req = 0
       self.steer_rate_counter = 0
 
-    lead_vehicle_stopped = hud_control.leadVelocity < 0.5 and hud_control.leadVisible  # Give radar some room for error
+    # cydia2020 - LVSTP Logic, 0.5 m/s to give radar some room for error
+    # Lead is never stopped and openpilot is ready to be resumed when using e2e long
+    lead_vehicle_stopped = (hud_control.leadVelocity < 0.5 and hud_control.leadVisible) and not self.e2e_long
 
     # cydia2020 - mimic stock behaviour, send standstill if the lead vehicle is stopped, else release
+    # Don't go into standstill when using e2e long
     if CS.out.standstill and lead_vehicle_stopped and self.CP.carFingerprint not in NO_STOP_TIMER_CAR:
       self.standstill_req = True
     else:
-      # pcm entered standstill or it's disabled
       self.standstill_req = False
 
     self.last_steer = apply_steer
