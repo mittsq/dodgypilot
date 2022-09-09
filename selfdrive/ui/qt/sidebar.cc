@@ -1,5 +1,6 @@
 #include "selfdrive/ui/qt/sidebar.h"
 
+#include <cmath>
 #include <QMouseEvent>
 
 #include "selfdrive/ui/qt/util.h"
@@ -63,12 +64,18 @@ void Sidebar::updateState(const UIState &s) {
   }
   setProperty("connectStatus", QVariant::fromValue(connectStatus));
 
-  ItemStatus tempStatus = {"TEMP\nHIGH", danger_color};
+  // temperature display
+  float temp_multiplication = (float)deviceState.getAmbientTempC() * (params.getBool("IsMetric") ? 1 : (9/5));
+  int temp_addition = params.getBool("IsMetric") ? 0 : 32;
+  int final_temp = std::nearbyint(temp_multiplication + temp_addition);
+  QString temp_disp = "TEMP\n" + QString::number(final_temp) + (params.getBool("IsMetric") ? "°C" : "°F");
+
+  ItemStatus tempStatus = {temp_disp, danger_color};
   auto ts = deviceState.getThermalStatus();
   if (ts == cereal::DeviceState::ThermalStatus::GREEN) {
-    tempStatus = {"TEMP\nGOOD", good_color};
+    tempStatus = {temp_disp, good_color};
   } else if (ts == cereal::DeviceState::ThermalStatus::YELLOW) {
-    tempStatus = {"TEMP\nOK", warning_color};
+    tempStatus = {temp_disp, warning_color};
   }
   setProperty("tempStatus", QVariant::fromValue(tempStatus));
 
