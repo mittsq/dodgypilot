@@ -14,12 +14,9 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 AudibleAlert = car.CarControl.HUDControl.AudibleAlert
 # constants for fault workaround
 MAX_STEER_RATE = 100  # deg/s
-MAX_STEER_RATE_FRAMES = 18
+MAX_STEER_RATE_FRAMES = 19
 
 params = Params()
-
-# EPS allows user torque above threshold for 50 frames before permanently faulting
-MAX_USER_TORQUE = 500
 
 class CarController:
   def __init__(self, dbc_name, CP, VM):
@@ -44,7 +41,6 @@ class CarController:
     actuators = CC.actuators
     hud_control = CC.hudControl
     pcm_cancel_cmd = CC.cruiseControl.cancel or (not CC.enabled and CS.pcm_acc_status)
-    lat_active = CC.latActive and abs(CS.out.steeringTorque) < MAX_USER_TORQUE
 
     # gas and brake
     # Default interceptor logic
@@ -80,13 +76,13 @@ class CarController:
     # EPS_STATUS->LKA_STATE either goes to 21 or 25 on rising edge of a steering fault and
     # the value seems to describe how many frames the steering rate was above 100 deg/s, so
     # cut torque with some margin for the lower state
-    if lat_active and abs(CS.out.steeringRateDeg) >= MAX_STEER_RATE:
+    if CC.latActive and abs(CS.out.steeringRateDeg) >= MAX_STEER_RATE:
       self.steer_rate_counter += 1
     else:
       self.steer_rate_counter = 0
 
     apply_steer_req = 1
-    if not lat_active:
+    if not CC.latActive:
       apply_steer = 0
       apply_steer_req = 0
     elif self.steer_rate_counter >= MAX_STEER_RATE_FRAMES:
