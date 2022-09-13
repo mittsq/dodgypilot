@@ -102,7 +102,8 @@ class CarController:
       # cydia2020 - mimic stock behaviour, send standstill if the lead vehicle is stopped, else release
       # Don't go into standstill when using e2e long
       if CS.out.standstill and lead_vehicle_stopped and self.CP.carFingerprint not in NO_STOP_TIMER_CAR:
-        self.standstill_req = True
+        # self.standstill_req = True
+        pass
       else:
         self.standstill_req = False
 
