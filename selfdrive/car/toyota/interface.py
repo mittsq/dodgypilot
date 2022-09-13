@@ -4,7 +4,7 @@ from common.params import Params
 from common.conversions import Conversions as CV
 from selfdrive.car.toyota.tunes import LatTunes, LongTunes, set_long_tune, set_lat_tune
 from selfdrive.controls.lib.latcontrol_torque import set_torque_tune
-from selfdrive.car.toyota.values import Ecu, CAR, ToyotaFlags, TSS2_CAR, NO_DSU_CAR, MIN_ACC_SPEED, EPS_SCALE, EV_HYBRID_CAR, FULL_SPEED_DRCC_CAR, CarControllerParams
+from selfdrive.car.toyota.values import Ecu, CAR, ToyotaFlags, TSS2_CAR, NO_DSU_CAR, MIN_ACC_SPEED, EPS_SCALE, EV_HYBRID_CAR, FULL_SPEED_DRCC_CAR, CarControllerParams, RADAR_ACC_CAR_TSS1
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint, get_safety_config
 from selfdrive.car.interfaces import CarInterfaceBase
 
@@ -298,9 +298,10 @@ class CarInterface(CarInterfaceBase):
     ret.tireStiffnessFront, ret.tireStiffnessRear = scale_tire_stiffness(ret.mass, ret.wheelbase, ret.centerToFront,
                                                                          tire_stiffness_factor=tire_stiffness_factor)
 
-    ret.enableBsm = 0x3F6 in fingerprint[0] and candidate in TSS2_CAR
+    ret.enableBsm = 0x3F6 in fingerprint[0] and (candidate in TSS2_CAR or candidate in RADAR_ACC_CAR_TSS1)
     # Detect smartDSU, which intercepts ACC_CMD from the DSU allowing openpilot to send it
     ret.smartDsu = 0x2FF in fingerprint[0]
+    ret.radarInterceptor = candidate in RADAR_ACC_CAR_TSS1 and 0x2AA in fingerprint[0]
     if ret.smartDsu:
       params.put_bool("ToyotaLongToggle_Allow", True)
     # In TSS2 cars the camera does long control
@@ -308,12 +309,20 @@ class CarInterface(CarInterfaceBase):
     ret.enableDsu = (len(found_ecus) > 0) and (Ecu.dsu not in found_ecus) and (candidate not in NO_DSU_CAR) and (not ret.smartDsu)
     ret.enableGasInterceptor = 0x201 in fingerprint[0]
     # if the smartDSU is detected, openpilot can send ACC_CMD (and the smartDSU will block it from the DSU) or not (the DSU is "connected")
-    ret.openpilotLongitudinalControl = (ret.smartDsu or ret.enableDsu or candidate in TSS2_CAR) and not params.get_bool("SmartDSULongToggle")
+    ret.openpilotLongitudinalControl = (ret.smartDsu or ret.enableDsu or candidate in TSS2_CAR or ret.radarInterceptor) and not params.get_bool("SmartDSULongToggle")
+    if ret.radarInterceptor:
+      if Params().get_bool("ToyotaRadarACCTSS1_ObjectMode"):
+        ret.radarTimeStep = 1.0 / 15.0
+      else:
+        ret.radarTimeStep = 1.0 / 10.0
 
     # we can't use the fingerprint to detect this reliably, since
     # the EV gas pedal signal can take a couple seconds to appear
     if candidate in EV_HYBRID_CAR:
       ret.flags |= ToyotaFlags.HYBRID.value
+
+    if params.get_bool("chrBsm"):
+      ret.flags |= ToyotaFlags.CHR_BSM.value
 
     # min speed to enable ACC. if car can do stop and go, then set enabling speed
     # to a negative value, so it won't matter.
@@ -324,7 +333,7 @@ class CarInterface(CarInterfaceBase):
     elif candidate in TSS2_CAR:
       set_long_tune(ret.longitudinalTuning, LongTunes.TSS2)
       ret.stoppingDecelRate = 0.3  # reach stopping target smoothly
-    elif params.get_bool("EndToEndLong") and candidate not in TSS2_CAR:
+    elif candidate in RADAR_ACC_CAR_TSS1 or (params.get_bool("EndToEndLong") and candidate not in TSS2_CAR):
       set_long_tune(ret.longitudinalTuning, LongTunes.TSSStock)
     else:
       set_long_tune(ret.longitudinalTuning, LongTunes.TSSBetter)
