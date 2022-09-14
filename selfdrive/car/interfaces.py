@@ -40,10 +40,6 @@ class CarInterfaceBase(ABC):
     self.low_speed_alert = False
     self.silent_steer_warning = True
 
-    self.cluster_speed_steady = 0.0
-    self.cluster_speed_factor = 1.0
-    self.cluster_speed_hyst_gap = 0.0
-
     self.CS = None
     self.can_parsers = []
     if CarState is not None:
@@ -137,14 +133,6 @@ class CarInterfaceBase(ABC):
       raise NotImplementedError(f"Did not find torque params for {candidate}")
     return {key:out[i] for i, key in enumerate(params['legend'])}
 
-  def apply_cluster_speed_hysteresis(self, v_ego):
-    if v_ego > self.cluster_speed_steady + self.cluster_speed_hyst_gap:
-      self.cluster_speed_steady = v_ego - self.cluster_speed_hyst_gap
-    elif v_ego < self.cluster_speed_steady - self.cluster_speed_hyst_gap:
-      self.cluster_speed_steady = v_ego + self.cluster_speed_hyst_gap
-
-    return self.cluster_speed_steady
-
   @abstractmethod
   def _update(self, c: car.CarControl) -> car.CarState:
     pass
@@ -160,12 +148,6 @@ class CarInterfaceBase(ABC):
 
     ret.canValid = all(cp.can_valid for cp in self.can_parsers if cp is not None)
     ret.canTimeout = any(cp.bus_timeout for cp in self.can_parsers if cp is not None)
-
-    # Apply hysteresis to cluster ego speed
-    ret.vEgoCluster = self.apply_cluster_speed_hysteresis(ret.vEgo * self.cluster_speed_factor)
-
-    if ret.cruiseState.speedCluster == 0:
-      ret.cruiseState.speedCluster = ret.cruiseState.speed
 
     # copy back for next iteration
     reader = ret.as_reader()
