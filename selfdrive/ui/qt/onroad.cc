@@ -306,21 +306,28 @@ void NvgWindow::updateFrameMat(int w, int h) {
 void NvgWindow::drawLaneLines(QPainter &painter, const UIState *s) {
   const UIScene &scene = s->scene;
   // lanelines
-  for (int i = 0; i < std::size(scene.lane_line_vertices); ++i) {
-    painter.setBrush(QColor::fromRgbF(1.0, 1.0, 1.0, std::clamp<float>(scene.lane_line_probs[i], 0.0, 0.7)));
-    painter.drawPolygon(scene.lane_line_vertices[i].v, scene.lane_line_vertices[i].cnt);
-  }
+  if (!scene.end_to_end_lat) {
+    for (int i = 0; i < std::size(scene.lane_line_vertices); ++i) {
+      painter.setBrush(QColor::fromRgbF(1.0, 1.0, 1.0, std::clamp<float>(scene.lane_line_probs[i], 0.0, 0.7)));
+      painter.drawPolygon(scene.lane_line_vertices[i].v, scene.lane_line_vertices[i].cnt);
+    }
 
-  // road edges
-  for (int i = 0; i < std::size(scene.road_edge_vertices); ++i) {
-    painter.setBrush(QColor::fromRgbF(1.0, 0, 0, std::clamp<float>(1.0 - scene.road_edge_stds[i], 0.0, 1.0)));
-    painter.drawPolygon(scene.road_edge_vertices[i].v, scene.road_edge_vertices[i].cnt);
+    // road edges
+    for (int i = 0; i < std::size(scene.road_edge_vertices); ++i) {
+      painter.setBrush(QColor::fromRgbF(1.0, 0, 0, std::clamp<float>(1.0 - scene.road_edge_stds[i], 0.0, 1.0)));
+      painter.drawPolygon(scene.road_edge_vertices[i].v, scene.road_edge_vertices[i].cnt);
+    }
   }
 
   // paint path
   QLinearGradient bg(0, height(), 0, height() / 4);
-  bg.setColorAt(0, whiteColor(128));
-  bg.setColorAt(1, whiteColor(0));
+  if (scene.end_to_end_long) {
+    bg.setColorAt(0, QColor(0xf7, 0x8f, 0x66, 128));
+    bg.setColorAt(1, QColor(0xff, 0xad, 0x00, 0));
+  } else {
+    bg.setColorAt(0, whiteColor(128));
+    bg.setColorAt(1, whiteColor(0));
+  }
   painter.setBrush(bg);
   painter.drawPolygon(scene.track_vertices.v, scene.track_vertices.cnt);
 }
