@@ -47,7 +47,7 @@ def manager_init() -> None:
     ("EnableTorqueController", "1"),
     ("EnableOpenpilotSounds", "0"),
     ("IsDMEnabled", "1"),
-    ("EnableLongitudinalInterceptors", 1),
+    ("EnableLongitudinalInterceptors", "1"),
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
