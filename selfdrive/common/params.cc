@@ -200,6 +200,8 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"chrBsm", PERSISTENT},
     // Smartype's RADAR Interface Param
     {"ToyotaRadarACCTSS1_ObjectMode", PERSISTENT},
+    // Longitudinal Interceptors (SDSU, RDR Filter)
+    {"EnableLongitudinalInterceptors", PERSISTENT},
 };
 
 } // namespace

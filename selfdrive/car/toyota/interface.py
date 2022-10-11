@@ -289,8 +289,8 @@ class CarInterface(CarInterfaceBase):
 
     ret.enableBsm = 0x3F6 in fingerprint[0] and (candidate in TSS2_CAR or candidate in RADAR_ACC_CAR_TSS1)
     # Detect smartDSU, which intercepts ACC_CMD from the DSU allowing openpilot to send it
-    ret.smartDsu = 0x2FF in fingerprint[0]
-    ret.radarInterceptor = candidate in RADAR_ACC_CAR_TSS1 and 0x2AA in fingerprint[0]
+    ret.smartDsu = 0x2FF in fingerprint[0] and params.get_bool("EnableLongitudinalInterceptors")
+    ret.radarInterceptor = candidate in RADAR_ACC_CAR_TSS1 and 0x2AA in fingerprint[0] and params.get_bool("EnableLongitudinalInterceptors")
     if ret.smartDsu:
       params.put_bool("ToyotaLongToggle_Allow", True)
     # In TSS2 cars the camera does long control

@@ -248,6 +248,14 @@ DodgypilotPanel::DodgypilotPanel(SettingsWindow *parent) : ListWidget(parent) {
       "../assets/offroad/icon_torque_controller.png",
     },
 
+    // longitudinal interceptors
+    {
+      "EnableLongitudinalInterceptors",
+      "Long: Enable Interceptor Support",
+      "Enable support for DSU and RADAR CAN Filters (e.g. SmartDSU, RADAR CAN Filter).",
+      "../assets/offroad/icon_link_variant_minus.png",
+    },
+
     // cruise speed rewrite, stolen from dragonpilot
     {
       "CruiseSpeedRewrite",
