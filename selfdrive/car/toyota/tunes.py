@@ -6,6 +6,7 @@ class LongTunes(Enum):
   TSS2 = 1
   TSSBetter = 2
   TSSStock = 3
+  TSSPCamry = 4
 
 class LatTunes(Enum):
   INDI_PRIUS = 0
@@ -45,6 +46,11 @@ def set_long_tune(tune, name):
     tune.kiBP = [0., 35.]
     tune.kpV = [3.6, 2.4, 1.5]
     tune.kiV = [0.54, 0.36]
+  elif name == LongTunes.TSSPCamry:
+    tune.kpBP = [0., 9., 35.]
+    tune.kiBP = [0., 9., 35.]
+    tune.kpV = [2.0, 1.2, 1.0]
+    tune.kiV = [0.60, 0.54, 0.35]
   else:
     raise NotImplementedError('This longitudinal tune does not exist')
 
