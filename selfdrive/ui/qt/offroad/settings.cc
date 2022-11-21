@@ -117,12 +117,6 @@ TogglesPanel::TogglesPanel(SettingsWindow *parent) : ListWidget(parent) {
       "Display speed in km/h instead of mph.",
       "../assets/offroad/icon_metric.png",
     },
-    {
-      "RecordFront",
-      "Record and Upload Driver Camera",
-      "Upload data from the driver facing camera and help improve the driver monitoring algorithm.",
-      "../assets/offroad/icon_monitoring.png",
-    },
 #ifdef ENABLE_MAPS
     {
       "NavSettingTime24h",
