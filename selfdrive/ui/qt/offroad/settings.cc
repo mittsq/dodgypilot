@@ -117,12 +117,6 @@ TogglesPanel::TogglesPanel(SettingsWindow *parent) : ListWidget(parent) {
       "Display speed in km/h instead of mph.",
       "../assets/offroad/icon_metric.png",
     },
-    {
-      "RecordFront",
-      "Record and Upload Driver Camera",
-      "Upload data from the driver facing camera and help improve the driver monitoring algorithm.",
-      "../assets/offroad/icon_monitoring.png",
-    },
 #ifdef ENABLE_MAPS
     {
       "NavSettingTime24h",
@@ -246,6 +240,14 @@ DodgypilotPanel::DodgypilotPanel(SettingsWindow *parent) : ListWidget(parent) {
       "Lat: Use Torque Controller",
       "Experimental: use the new torque controller, please turn this off if you experience ping-pongs.",
       "../assets/offroad/icon_torque_controller.png",
+    },
+
+    // longitudinal interceptors
+    {
+      "EnableLongitudinalInterceptors",
+      "Long: Enable Interceptor Support",
+      "Enable support for DSU and RADAR CAN Filters (e.g. SmartDSU, RADAR CAN Filter).",
+      "../assets/offroad/icon_link_variant_minus.png",
     },
 
     // cruise speed rewrite, stolen from dragonpilot

@@ -42,6 +42,8 @@ class CarController:
     hud_control = CC.hudControl
     pcm_cancel_cmd = CC.cruiseControl.cancel or (not CC.enabled and CS.pcm_acc_status)
 
+    _accel_max = CarControllerParams.ACCEL_MAX_CAMRY if self.CP.carFingerprint == CAR.CAMRY else CarControllerParams.ACCEL_MAX
+
     # gas and brake
     # Default interceptor logic
     if self.CP.enableGasInterceptor and CC.longActive and self.CP.openpilotLongitudinalControl and self.CP.carFingerprint not in FULL_SPEED_DRCC_CAR:
@@ -66,7 +68,7 @@ class CarController:
       interceptor_gas_cmd = 0.
 
     # PCM acceleration command, vehicle only responds to this when the "no accel below" speed has been reached
-    pcm_accel_cmd = clip(actuators.accel, CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
+    pcm_accel_cmd = clip(actuators.accel, CarControllerParams.ACCEL_MIN, _accel_max)
 
     # steer torque
     new_steer = int(round(actuators.steer * CarControllerParams.STEER_MAX))

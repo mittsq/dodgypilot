@@ -1,18 +1,18 @@
 [submodule "panda"]
 	path = panda
-	url = ../../commaai/panda.git
+	url = ../../cydia2020/panda.git
 [submodule "opendbc"]
 	path = opendbc
-	url = ../../commaai/opendbc.git
+	url = ../../cydia2020/opendbc.git
 [submodule "laika_repo"]
 	path = laika_repo
 	url = ../../commaai/laika.git
 [submodule "cereal"]
 	path = cereal
-	url = ../../commaai/cereal.git
+	url = ../../cydia2020/cereal.git
 [submodule "rednose_repo"]
 	path = rednose_repo
 	url = ../../commaai/rednose.git
 [submodule "canfilter"]
 	path = canfilter
-	url = https://github.com/cydia2020/canfilter
+	url = ../../cydia2020/canfilter.git

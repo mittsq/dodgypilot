@@ -3,7 +3,7 @@ from cereal import car
 from common.params import Params
 from common.conversions import Conversions as CV
 from selfdrive.car.toyota.tunes import LatTunes, LongTunes, set_long_tune, set_lat_tune
-from selfdrive.car.toyota.values import Ecu, CAR, ToyotaFlags, TSS2_CAR, NO_DSU_CAR, MIN_ACC_SPEED, EPS_SCALE, EV_HYBRID_CAR, FULL_SPEED_DRCC_CAR, CarControllerParams, RADAR_ACC_CAR_TSS1
+from selfdrive.car.toyota.values import Ecu, CAR, ToyotaFlags, TSS2_CAR, NO_DSU_CAR, MIN_ACC_SPEED, EPS_SCALE, EV_HYBRID_CAR, FULL_SPEED_DRCC_CAR, CarControllerParams, RADAR_ACC_CAR_TSS1, RADAR_ACC_CAR_TSS1_NEW_TUNE
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint, get_safety_config
 from selfdrive.car.interfaces import CarInterfaceBase
 
@@ -289,8 +289,8 @@ class CarInterface(CarInterfaceBase):
 
     ret.enableBsm = 0x3F6 in fingerprint[0] and (candidate in TSS2_CAR or candidate in RADAR_ACC_CAR_TSS1)
     # Detect smartDSU, which intercepts ACC_CMD from the DSU allowing openpilot to send it
-    ret.smartDsu = 0x2FF in fingerprint[0]
-    ret.radarInterceptor = candidate in RADAR_ACC_CAR_TSS1 and 0x2AA in fingerprint[0]
+    ret.smartDsu = 0x2FF in fingerprint[0] and params.get_bool("EnableLongitudinalInterceptors")
+    ret.radarInterceptor = candidate in RADAR_ACC_CAR_TSS1 and 0x2AA in fingerprint[0] and params.get_bool("EnableLongitudinalInterceptors")
     if ret.smartDsu:
       params.put_bool("ToyotaLongToggle_Allow", True)
     # In TSS2 cars the camera does long control
@@ -319,10 +319,11 @@ class CarInterface(CarInterfaceBase):
 
     if ret.enableGasInterceptor and not candidate in FULL_SPEED_DRCC_CAR:
       set_long_tune(ret.longitudinalTuning, LongTunes.PEDAL)
-    elif candidate in TSS2_CAR:
+    elif candidate in TSS2_CAR or candidate == CAR.CAMRYH:
       set_long_tune(ret.longitudinalTuning, LongTunes.TSS2)
       ret.stoppingDecelRate = 0.3  # reach stopping target smoothly
-    elif candidate in RADAR_ACC_CAR_TSS1 or (params.get_bool("EndToEndLong") and candidate not in TSS2_CAR):
+    elif candidate in (RADAR_ACC_CAR_TSS1 - RADAR_ACC_CAR_TSS1_NEW_TUNE) \
+         or (params.get_bool("EndToEndLong") and candidate not in TSS2_CAR):
       set_long_tune(ret.longitudinalTuning, LongTunes.TSSStock)
     else:
       set_long_tune(ret.longitudinalTuning, LongTunes.TSSBetter)
