@@ -139,7 +139,7 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
   statsAndSetup->setMargin(0);
   statsAndSetup->setSpacing(30);
   statsAndSetup->addWidget(new DriveStats, 1);
-  statsAndSetup->addWidget(new SetupWidget);
+  // statsAndSetup->addWidget(new SetupWidget);
 
   center_layout->addWidget(statsAndSetupWidget);
 
@@ -186,7 +186,7 @@ void OffroadHome::hideEvent(QHideEvent *event) {
 }
 
 void OffroadHome::refresh() {
-  date->setText(QDateTime::currentDateTime().toString("📅 yyyy-MMMM-dd ddd 🕰️ HH:mm"));
+  date->setText(QDateTime::currentDateTime().toString("ddd MMMM dd HH:mm"));
 
   bool updateAvailable = update_widget->refresh();
   int alerts = alerts_widget->refresh();
