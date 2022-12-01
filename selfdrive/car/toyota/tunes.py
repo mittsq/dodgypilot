@@ -2,11 +2,10 @@
 from enum import Enum
 
 class LongTunes(Enum):
-  PEDAL = 0
-  TSS2 = 1
-  TSSBetter = 2
-  TSSStock = 3
-  TSSPCamry = 4
+  TSS2 = 0
+  TSSPPrius = 1
+  TSSStock = 2
+  TSSPCamry = 3
 
 class LatTunes(Enum):
   INDI_PRIUS = 0
@@ -29,23 +28,29 @@ class LatTunes(Enum):
 
 ###### LONG ######
 def set_long_tune(tune, name):
+  tune.deadzoneBP = [0., 9., 12.]
+  tune.deadzoneV = [.1, .15, 0.]
   # Improved longitudinal tune
-  if name == LongTunes.TSS2 or name == LongTunes.PEDAL:
+  if name == LongTunes.TSS2:
     tune.kpBP = [0., 5., 20.]
     tune.kpV = [1.3, 1.0, 0.7]
     tune.kiBP = [0., 5., 12., 20., 27.]
     tune.kiV = [.35, .23, .20, .17, .1]
+  # Longitudinal tune for Toyota Prius
+  elif name == LongTunes.TSSPPrius:
+    tune.kpBP = [0., 35.]
+    tune.kiBP = [0.]
+    tune.kdBP = [0., 16., 20.]
+    tune.kpV = [1.2, 1.4]
+    tune.kiV = [0.3]
+    tune.kdV = [0.25, 0.3, 0.4]
   # Default longitudinal tune
-  elif name == LongTunes.TSSBetter:
-    tune.kpBP = [0., 5., 35.]
-    tune.kiBP = [0., 35.]
-    tune.kpV = [1.8, 1.5, 1.0]
-    tune.kiV = [0.54, 0.36]
   elif name == LongTunes.TSSStock:
     tune.kpBP = [0., 5., 35.]
     tune.kiBP = [0., 35.]
     tune.kpV = [3.6, 2.4, 1.5]
     tune.kiV = [0.54, 0.36]
+  # Improved tune for RADAR ACC Camry
   elif name == LongTunes.TSSPCamry:
     tune.kpBP = [0., 9., 35.]
     tune.kiBP = [0., 9., 35.]
