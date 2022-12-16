@@ -138,7 +138,7 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
   QHBoxLayout* statsAndSetup = new QHBoxLayout(statsAndSetupWidget);
   statsAndSetup->setMargin(0);
   statsAndSetup->setSpacing(30);
-  statsAndSetup->addWidget(new DriveStats, 1);
+  // statsAndSetup->addWidget(new DriveStats, 1);
   // statsAndSetup->addWidget(new SetupWidget);
 
   center_layout->addWidget(statsAndSetupWidget);
