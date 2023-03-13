@@ -45,6 +45,7 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 15.74   # unknown end-to-end spec
       tire_stiffness_factor = 0.6371   # hand-tune
       ret.mass = 3045. * CV.LB_TO_KG + STD_CARGO_KG
+      ret.steerActuatorDelay = 0.3
       if enableTorqueController:
         CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning, steering_angle_deadzone_deg)
         # Only give steer angle deadzone to for bad angle sensor prius
