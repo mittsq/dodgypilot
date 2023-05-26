@@ -1,5 +1,4 @@
 from cereal import car
-from common.realtime import DT_CTRL
 from common.numpy_fast import clip, interp
 from common.params import Params
 from selfdrive.car import apply_toyota_steer_torque_limits, create_gas_interceptor_command, make_can_msg
