@@ -136,8 +136,13 @@ class CarController:
     if not CC.enabled:
       self.last_off_frame = self.frame
 
+    # cydia2020 - PERMIT_BRAKING commands the PCM to allow openpilot to engage the friction brakes
+    # and engine brake on your vehicle, it does not affect regen braking as far as I can tell
+    # setting PERMIT_BRAKING to 1 prevents the vehicle from coasting at low speed with low accel
+    # allow the vehicle to coast when the speed is below 6m/s for improved SnG smoothness
+    permit_braking_accel = interp(CS.out.vEgo, [0.0, 6., 10.], [0., 0.0, 0.35])
     # Handle permit braking logic
-    if (actuators.accel > 0.35) or not CC.enabled or (0.5 / DT_CTRL > (self.frame - self.last_off_frame) and not lead_vehicle_stopped):
+    if (actuators.accel > permit_braking_accel) or not CC.enabled:
       self.permit_braking = False
     else:
       self.permit_braking = True
