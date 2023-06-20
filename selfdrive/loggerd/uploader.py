@@ -23,7 +23,7 @@ UPLOAD_ATTR_VALUE = b'1'
 
 allow_sleep = bool(os.getenv("UPLOADER_SLEEP", "1"))
 force_wifi = os.getenv("FORCEWIFI") is not None
-fake_upload = os.getenv("FAKEUPLOAD") is not None
+fake_upload = True # os.getenv("FAKEUPLOAD") is not None
 
 
 def get_directory_sort(d):
@@ -247,7 +247,8 @@ def uploader_fn(exit_event):
 
     key, fn = d
 
-    success = uploader.upload(key, fn, sm['deviceState'].networkType.raw, sm['deviceState'].networkMetered)
+    # success = uploader.upload(key, fn, sm['deviceState'].networkType.raw, sm['deviceState'].networkMetered)
+    success = True
     if success:
       backoff = 0.1
     elif allow_sleep:
