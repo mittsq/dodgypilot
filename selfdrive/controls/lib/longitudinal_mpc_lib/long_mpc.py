@@ -255,15 +255,11 @@ class LongitudinalMpc:
     d_zone_tf = interp(self.desired_TF, TFs, [1.6, 1.3, 1.])
     # KRKeegan adjustments to improve sluggish acceleration
     # do not apply to deceleration
-    j_ego_v_ego = 1
     a_change_v_ego = 1
     if (v_lead0 - v_ego >= 0) and (v_lead1 - v_ego >= 0):
-      j_ego_v_ego = interp(v_ego, v_ego_bps, [.05, 1.])
       a_change_v_ego = interp(v_ego, v_ego_bps, [.05, 1.])
-    # Select the appropriate min/max of the options
-    j_ego = min(j_ego_tf, j_ego_v_ego)
     a_change = min(a_change_tf, a_change_v_ego)
-    return (a_change, j_ego, d_zone_tf)
+    return (a_change, j_ego_tf, d_zone_tf)
 
   def set_cost_weights(self, cost_weights, constraint_cost_weights):
     W = np.asfortranarray(np.diag(cost_weights))
