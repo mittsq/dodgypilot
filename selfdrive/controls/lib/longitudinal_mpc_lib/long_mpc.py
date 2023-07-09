@@ -247,7 +247,7 @@ class LongitudinalMpc:
   def get_cost_multipliers(self, v_lead0, v_lead1):
     v_ego = self.x0[1]
     v_ego_bps = [0, 10]
-    TFs = [0.9, 1.45, 1.8]
+    TFs = [0.9, 1.25, 1.6]
     # KRKeegan adjustments to costs for different TFs
     # these were calculated using the test_longitudial.py deceleration tests
     a_change_tf = interp(self.desired_TF, TFs, [.1, .8, 1.])
@@ -255,15 +255,11 @@ class LongitudinalMpc:
     d_zone_tf = interp(self.desired_TF, TFs, [1.6, 1.3, 1.])
     # KRKeegan adjustments to improve sluggish acceleration
     # do not apply to deceleration
-    j_ego_v_ego = 1
     a_change_v_ego = 1
     if (v_lead0 - v_ego >= 0) and (v_lead1 - v_ego >= 0):
-      j_ego_v_ego = interp(v_ego, v_ego_bps, [.05, 1.])
       a_change_v_ego = interp(v_ego, v_ego_bps, [.05, 1.])
-    # Select the appropriate min/max of the options
-    j_ego = min(j_ego_tf, j_ego_v_ego)
     a_change = min(a_change_tf, a_change_v_ego)
-    return (a_change, j_ego, d_zone_tf)
+    return (a_change, j_ego_tf, d_zone_tf)
 
   def set_cost_weights(self, cost_weights, constraint_cost_weights):
     W = np.asfortranarray(np.diag(cost_weights))
@@ -285,7 +281,7 @@ class LongitudinalMpc:
     cost_mulitpliers = self.get_cost_multipliers(v_lead0, v_lead1)
     if self.mode == 'acc':
       a_change_cost = A_CHANGE_COST if prev_accel_constraint else 0
-      cost_weights = [X_EGO_OBSTACLE_COST, X_EGO_COST, V_EGO_COST, A_EGO_COST, a_change_cost * cost_mulitpliers[0], J_EGO_COST]
+      cost_weights = [X_EGO_OBSTACLE_COST, X_EGO_COST, V_EGO_COST, A_EGO_COST, a_change_cost * cost_mulitpliers[0] * cost_mulitpliers[1], J_EGO_COST * cost_mulitpliers[1]]
       constraint_cost_weights = [LIMIT_COST, LIMIT_COST, LIMIT_COST, DANGER_ZONE_COST]
     elif self.mode == 'blended':
       cost_weights = [0., 0.2, 0.25, 1.0, 0.0, 1.0]
