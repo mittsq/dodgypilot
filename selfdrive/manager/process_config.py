@@ -15,7 +15,7 @@ procs = [
   NativeProcess("loggerd", "selfdrive/loggerd", ["./loggerd"], enabled=False),
   NativeProcess("modeld", "selfdrive/modeld", ["./modeld"]),
   NativeProcess("navd", "selfdrive/ui/navd", ["./navd"], enabled=False),
-  NativeProcess("proclogd", "selfdrive/proclogd", ["./proclogd"]),
+  NativeProcess("proclogd", "selfdrive/proclogd", ["./proclogd"], enabled=False),
   NativeProcess("sensord", "selfdrive/sensord", ["./sensord"], enabled=not PC, persistent=EON, sigkill=EON),
   NativeProcess("ubloxd", "selfdrive/locationd", ["./ubloxd"], enabled=(not PC or WEBCAM)),
   NativeProcess("ui", "selfdrive/ui", ["./ui"], persistent=True, watchdog_max_dt=(5 if TICI else None)),
