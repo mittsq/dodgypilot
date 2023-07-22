@@ -359,6 +359,8 @@ DevicePanel::DevicePanel(SettingsWindow *parent) : ListWidget(parent) {
   connect(resetCalibBtn, &ButtonControl::clicked, [&]() {
     if (ConfirmationDialog::confirm("Are you sure you want to reset calibration?", this)) {
       params.remove("CalibrationParams");
+      params.remove("LiveTorqueParameters");
+      params.remove("LiveTorqueCarParams");
     }
   });
   addItem(resetCalibBtn);
