@@ -403,7 +403,7 @@ if arch not in ["aarch64", "larch64"]:
 Export('rednose_config')
 SConscript(['rednose/SConscript'])
 
-Build openpilot
+# Build openpilot
 
 SConscript(['cereal/SConscript'])
 SConscript(['panda/board/SConscript'])
