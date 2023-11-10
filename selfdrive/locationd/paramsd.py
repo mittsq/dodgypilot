@@ -49,12 +49,12 @@ class ParamsLearner:
       # TODO(simontheflutist) use a dynamic model to account for speed effect.
       # At high longitudinal speeds, the car is sort of in free fall (hence the simple calculation).
       # But at lower speeds, there is a lot of lateral friction.
-      llk_roll = msg.orientationNED.value[0]
-      llk_roll_std = msg.orientationNED.std[0]
-      llk_pitch = msg.orientationNED.value[1]
-      llk_pitch_std = msg.orientationNED.std[1]
+      llk_roll = msg.calibratedOrientationNED.value[0]
+      llk_roll_std = msg.calibratedOrientationNED.std[0]
+      llk_pitch = msg.calibratedOrientationNED.value[1]
+      llk_pitch_std = msg.calibratedOrientationNED.std[1]
       localizer_roll = math.cos(llk_pitch) * math.sin(llk_roll)
-      if np.isnan(msg.orientationNED.std[0]) or np.isnan(msg.orientationNED.std[0]):
+      if np.isnan(msg.calibratedOrientationNED.std[0]) or np.isnan(msg.calibratedOrientationNED.std[0]):
         localizer_roll_std = np.radians(1)
       else:
         # from linearization of localizer_roll as a function of roll and pitch
@@ -62,7 +62,7 @@ class ParamsLearner:
           (math.cos(llk_pitch) * math.cos(llk_roll) * llk_roll_std)**2
           + (math.sin(llk_pitch) * math.sin(llk_roll) * llk_pitch_std)**2
         )**0.5
-      roll_valid = msg.orientationNED.valid and ROLL_MIN < localizer_roll < ROLL_MAX
+      roll_valid = msg.calibratedOrientationNED.valid and ROLL_MIN < localizer_roll < ROLL_MAX
       if roll_valid:
         roll = localizer_roll
         # Experimentally found multiplier of 2 to be best trade-off between stability and accuracy or similar?
