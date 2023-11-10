@@ -62,7 +62,7 @@ class ParamsLearner:
           (math.cos(llk_pitch) * math.cos(llk_roll) * llk_roll_std)**2
           + (math.sin(llk_pitch) * math.sin(llk_roll) * llk_pitch_std)**2
         )**0.5
-      roll_valid = msg.calibratedOrientationNED.valid and ROLL_MIN < localizer_roll < ROLL_MAX
+      roll_valid = orientationNED.valid and ROLL_MIN < localizer_roll < ROLL_MAX
       if roll_valid:
         roll = localizer_roll
         # Experimentally found multiplier of 2 to be best trade-off between stability and accuracy or similar?
