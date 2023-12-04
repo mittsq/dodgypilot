@@ -1,3 +1,4 @@
+import math
 from cereal import car
 from common.conversions import Conversions as CV
 from common.numpy_fast import mean
@@ -8,6 +9,7 @@ from opendbc.can.can_define import CANDefine
 from opendbc.can.parser import CANParser
 from selfdrive.car.interfaces import CarStateBase
 from selfdrive.car.toyota.values import ToyotaFlags, CAR, DBC, STEER_THRESHOLD, NO_STOP_TIMER_CAR, TSS2_CAR, EPS_SCALE, RADAR_ACC_CAR_TSS1
+from selfdrive.controls.lib.vehicle_model import ACCELERATION_DUE_TO_GRAVITY
 
 
 class CarState(CarStateBase):
@@ -161,6 +163,11 @@ class CarState(CarStateBase):
       ret.rightBlindspot = (cp.vl["BSM"]["L_ADJACENT"] == 1) or (cp.vl["BSM"]["L_APPROACHING"] == 1)
       ret.leftBlindspot = (cp.vl["BSM"]["R_ADJACENT"] == 1) or (cp.vl["BSM"]["R_APPROACHING"] == 1)
 
+    # Calculate pitch, roll, yaw
+    ret.kinematicsPitch = math.atan2(-cp.vl["KINEMATICS"]["ACCEL_Y"], math.sqrt(cp.vl["KINEMATICS"]["ACCEL_X"]**2 + ACCELERATION_DUE_TO_GRAVITY**2))
+    ret.kinematicsYaw = math.radians(cp.vl["KINEMATICS"]["YAW_RATE"]) * (ret.vEgoRaw / 3.6)
+    ret.kinematicsRoll = math.atan2(cp.vl["KINEMATICS"]["ACCEL_X"], math.sqrt(cp.vl["KINEMATICS"]["ACCEL_Y"]**2 + ACCELERATION_DUE_TO_GRAVITY**2))
+
     # LKAS_HUD is on a different address on the Prius V, don't send to avoid problems
     if self.CP.carFingerprint != CAR.PRIUS_V:
       self.sws_toggle = (cp_cam.vl["LKAS_HUD"]["LANE_SWAY_TOGGLE"])
@@ -232,6 +239,9 @@ class CarState(CarStateBase):
       ("BRAKE_LIGHTS_ACC", "ESP_CONTROL"),
       ("PARKING_LIGHT", "LIGHT_STALK"),
       ("LOW_BEAM", "LIGHT_STALK"),
+      ("ACCEL_Y", "KINEMATICS"),
+      ("ACCEL_X", "KINEMATICS"),
+      ("YAW_RATE", "KINEMATICS"),
     ]
 
     checks = [
@@ -246,6 +256,7 @@ class CarState(CarStateBase):
       ("WHEEL_SPEEDS", 80),
       ("STEER_ANGLE_SENSOR", 80),
       ("PCM_CRUISE", 33),
+      ("KINEMATICS", 80),
       ("STEER_TORQUE_SENSOR", 50),
     ]
 
