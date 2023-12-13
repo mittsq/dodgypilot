@@ -149,7 +149,9 @@ class CarState(CarStateBase):
     ret.pcmStandstill = self.pcm_acc_status == 7
 
     ret.genericToggle = bool(cp.vl["LIGHT_STALK"]["AUTO_HIGH_BEAM"])
-    ret.stockAeb = bool(cp_cam.vl["PRE_COLLISION"]["PRECOLLISION_ACTIVE"] and cp_cam.vl["PRE_COLLISION"]["FORCE"] < -1e-5)
+    ret.stockAeb = (bool(cp_cam.vl["PRE_COLLISION"]["PRECOLLISION_ACTIVE"] and cp_cam.vl["PRE_COLLISION"]["FORCE"] < -1e-5)) or \
+      ((self.CP.smartDsu or not self.CP.openpilotLongitudinalControl or (self.CP.carFingerprint in RADAR_ACC_CAR_TSS1 and self.CP.radarInterceptor)) \
+       and bool(cp.vl["PRE_COLLISION"]["PRECOLLISION_ACTIVE"] and cp.vl["PRE_COLLISION"]["FORCE"] < -1e-5))
 
     ret.espDisabled = cp.vl["ESP_CONTROL"]["TC_DISABLED"] != 0
     # 2 is standby, 10 is active. TODO: check that everything else is really a faulty state
@@ -285,7 +287,10 @@ class CarState(CarStateBase):
     # checks for TSS-P RADAR ACC cars
     if CP.carFingerprint in RADAR_ACC_CAR_TSS1 and CP.radarInterceptor:
       signals.append(("DISTANCE", "ACC_CONTROL_COPY"))
+      signals.append(("FORCE", "PRE_COLLISION")),
+      signals.append(("PRECOLLISION_ACTIVE", "PRE_COLLISION")),
       checks.append(("ACC_CONTROL_COPY", 33))
+      checks.append(("PRE_COLLISION", 0)),
 
     # add gas interceptor reading if we are using it
     if CP.enableGasInterceptor:
@@ -311,6 +316,12 @@ class CarState(CarStateBase):
     if CP.smartDsu:
       signals.append(("FD_BUTTON", "SDSU"))
       checks.append(("SDSU", 0))
+
+    # PCS on TSS-P vehicles
+    if CP.smartDsu or not CP.openpilotLongitudinalControl:
+      signals.append(("FORCE", "PRE_COLLISION")),
+      signals.append(("PRECOLLISION_ACTIVE", "PRE_COLLISION")),
+      checks.append(("PRE_COLLISION", 0)),
 
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, 0)
 

@@ -186,6 +186,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"LastCarModel", PERSISTENT},
     // configurations
     {"AllowNonAdaptiveCruise", PERSISTENT},
+    {"EnableAutoDoorLockUnlock", PERSISTENT},
     {"CarBrightnessControl", PERSISTENT},
     {"SmartDSULongToggle", PERSISTENT},
     {"ToyotaLongToggle_Allow", CLEAR_ON_IGNITION_ON},
