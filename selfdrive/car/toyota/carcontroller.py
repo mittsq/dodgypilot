@@ -49,7 +49,8 @@ class CarController:
     self.gear_prev = GearShifter.park
     self.pcs_prev = False
     self.pcs_frame_prev = 0
-
+    self.door_locked = False
+    self.pcs_should_relock = False
   def update(self, CC, CS):
     actuators = CC.actuators
     hud_control = CC.hudControl
@@ -162,32 +163,30 @@ class CarController:
       self.permit_braking = True
 
     # auto door lock and unlock logic
-    door_locked = False
-    pcs_should_relock = False
     if not CS.out.doorOpen:
       gear = CS.out.gearShifter
       if gear == GearShifter.park and self.gear_prev != gear:
         if self.auto_lock_unlock:
           can_sends.append(make_can_msg(0x750, UNLOCK_CMD, 0))
-        door_locked = False
-      elif gear == GearShifter.drive and not door_locked and CS.out.vEgo >= LOCK_AT_SPEED:
+        self.door_locked = False
+      elif gear == GearShifter.drive and not self.door_locked and CS.out.vEgo >= LOCK_AT_SPEED:
         if self.auto_lock_unlock:
           can_sends.append(make_can_msg(0x750, LOCK_CMD, 0))
-        door_locked = True
+        self.door_locked = True
       self.gear_prev = gear
       # unlock doors if stock AEB is triggered
-      if CS.out.stockAeb and not self.pcs_prev and door_locked:
+      if CS.out.stockAeb and not self.pcs_prev and self.door_locked:
         if self.auto_lock_unlock:
           can_sends.append(make_can_msg(0x750, UNLOCK_CMD, 0))
         self.pcs_frame_prev = self.frame # record the frame that PCS was triggered
-        pcs_should_relock = True
+        self.pcs_should_relock = True
       self.pcs_prev = CS.out.stockAeb
       # set door to relock after 30 seconds when PCS is triggered
-      if (self.frame - self.pcs_frame_prev) > (RELOCK_TIME_AFTER_PCS / DT_CTRL) and pcs_should_relock and gear == GearShifter.drive and \
+      if (self.frame - self.pcs_frame_prev) > (RELOCK_TIME_AFTER_PCS / DT_CTRL) and self.pcs_should_relock and gear == GearShifter.drive and \
         CS.out.vEgo >= LOCK_AT_SPEED:
         if self.auto_lock_unlock:
           can_sends.append(make_can_msg(0x750, LOCK_CMD, 0))
-          pcs_should_relock = False
+          self.pcs_should_relock = False
 
     # we can spam can to cancel the system even if we are using lat only control
     if (self.frame % 3 == 0 and self.CP.openpilotLongitudinalControl) or pcm_cancel_cmd:
