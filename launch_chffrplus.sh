@@ -10,23 +10,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 function two_init {
 
-  dt=$(date +%s)
-
-  if [ $dt -le 1658278800 ]; then
-    date -s 'Wednesday, July 20, 2023 9:00:00 AM GMT+08:00' >/dev/null 2>&1
-  fi
-
-  mount -o remount,rw /system
-  if [ ! -f /ONEPLUS ] && ! $(grep -q "letv" /proc/cmdline); then
-    sed -i -e 's#/dev/input/event1#/dev/input/event2#g' ~/.bash_profile
-    touch /ONEPLUS
-  else
-    if [ ! -f /LEECO ]; then
-      touch /LEECO
-    fi
-  fi
-  mount -o remount,r /system
-
   # set IO scheduler
   setprop sys.io.scheduler noop
   for f in /sys/block/*/queue/scheduler; do
@@ -83,9 +66,6 @@ function two_init {
 
   # USB traffic needs realtime handling on cpu 3
   [ -d "/proc/irq/733" ] && echo 3 > /proc/irq/733/smp_affinity_list
-  if [ -f /ONEPLUS ]; then
-    [ -d "/proc/irq/736" ] && echo 3 > /proc/irq/736/smp_affinity_list # USB for OP3T
-  fi
 
   # GPU and camera get cpu 2
   CAM_IRQS="177 178 179 180 181 182 183 184 185 186 192"
@@ -107,78 +87,15 @@ function two_init {
 
   # wifi scan
   wpa_cli IFNAME=wlan0 SCAN
-  
-  # install missing libs
-  LIB_PATH="/data/openpilot/selfdrive/hardware/eon/libs"
-  PY_LIB_DEST="/system/comma/usr/lib/python3.8/site-packages"
-  mount -o remount,rw /system
-  # mapd
-  if [ ! -f "/system/comma/usr/lib/libgfortran.so.5.0.0" ]; then
-    echo "Installing libgfortran..."
-    tar -zxvf "$LIB_PATH/libgfortran.tar.gz" -C /system/comma/usr/lib/
-  fi
-  # mapd
-  MODULE="opspline"
-  if [ ! -d "$PY_LIB_DEST/$MODULE" ]; then
-    echo "Installing $MODULE..."
-    tar -zxvf "$LIB_PATH/$MODULE.tar.gz" -C "$PY_LIB_DEST/"
-  fi
-  MODULE="overpy"
-  if [ ! -d "$PY_LIB_DEST/$MODULE" ]; then
-    echo "Installing $MODULE..."
-    tar -zxvf "$LIB_PATH/$MODULE.tar.gz" -C "$PY_LIB_DEST/"
-  fi
-  # laika
-  MODULE="hatanaka"
-  if [ ! -d "$PY_LIB_DEST/$MODULE" ]; then
-    echo "Installing $MODULE..."
-    tar -zxvf "$LIB_PATH/$MODULE.tar.gz" -C "$PY_LIB_DEST/"
-  fi
-  if [ ! -f "$PY_LIB_DEST/ncompress.cpython-38.so" ]; then
-    echo "Installing ncompress.cpython-38.so..."
-    cp -f "$LIB_PATH/ncompress.cpython-38.so" "$PY_LIB_DEST/"
-  fi
-  MODULE="importlib_resources"
-  if [ ! -d "$PY_LIB_DEST/$MODULE" ]; then
-    echo "Installing $MODULE..."
-    tar -zxvf "$LIB_PATH/$MODULE.tar.gz" -C "$PY_LIB_DEST/"
-  fi
-  if [ ! -f "$PY_LIB_DEST/zipp.py" ]; then
-    echo "Installing zipp.py..."
-    cp -f "$LIB_PATH/zipp.py" "$PY_LIB_DEST/"
-  fi
-  # updated
-  MODULE="markdown_it"
-  if [ ! -d "$PY_LIB_DEST/$MODULE" ]; then
-    echo "Installing $MODULE..."
-    tar -zxvf "$LIB_PATH/$MODULE.tar.gz" -C "$PY_LIB_DEST/"
-  fi
-  MODULE="mdurl"
-  if [ ! -d "$PY_LIB_DEST/$MODULE" ]; then
-    echo "Installing $MODULE..."
-    tar -zxvf "$LIB_PATH/$MODULE.tar.gz" -C "$PY_LIB_DEST/"
-  fi
-  # panda
-  if [ ! -f "$PY_LIB_DEST/spidev.cpython-38.so" ]; then
-    echo "Installing spidev.cpython-38.so..."
-    cp -f "$LIB_PATH/spidev.cpython-38.so" "$PY_LIB_DEST/"
-  fi
-  mount -o remount,r /system
-  
 
   # Check for NEOS update
-  if [ -f /LEECO ] && [ $(< /VERSION) != "$REQUIRED_NEOS_VERSION" ]; then
+  if [ $(< /VERSION) != "$REQUIRED_NEOS_VERSION" ]; then
     echo "Installing NEOS update"
     NEOS_PY="$DIR/selfdrive/hardware/eon/neos.py"
     MANIFEST="$DIR/selfdrive/hardware/eon/neos.json"
     $NEOS_PY --swap-if-ready $MANIFEST
     $DIR/selfdrive/hardware/eon/updater $NEOS_PY $MANIFEST
   fi
-
-  # make sure we have the latest os version number.
-  mount -o remount,rw /system
-  echo -n "$REQUIRED_NEOS_VERSION" > /VERSION
-  mount -o remount,r /system
 }
 
 function tici_init {

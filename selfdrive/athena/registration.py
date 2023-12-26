@@ -29,7 +29,7 @@ def register(show_spinner=False) -> str:
   IMEI = params.get("IMEI", encoding='utf8')
   HardwareSerial = params.get("HardwareSerial", encoding='utf8')
   dongle_id = params.get("DongleId", encoding='utf8')
-  needs_registration = False
+  needs_registration = None in (IMEI, HardwareSerial, dongle_id)
 
   pubkey = Path(PERSIST+"/comma/id_rsa.pub")
   if not pubkey.is_file():
@@ -91,7 +91,7 @@ def register(show_spinner=False) -> str:
 
   if dongle_id:
     params.put("DongleId", dongle_id)
-    set_offroad_alert("Offroad_UnofficialHardware", False)
+    set_offroad_alert("Offroad_UnofficialHardware", (dongle_id == UNREGISTERED_DONGLE_ID) and not PC)
   return dongle_id
 
 
