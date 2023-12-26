@@ -1,3 +1,4 @@
+import math
 from cereal import car
 from common.conversions import Conversions as CV
 from common.numpy_fast import mean
@@ -8,6 +9,7 @@ from opendbc.can.can_define import CANDefine
 from opendbc.can.parser import CANParser
 from selfdrive.car.interfaces import CarStateBase
 from selfdrive.car.toyota.values import ToyotaFlags, CAR, DBC, STEER_THRESHOLD, NO_STOP_TIMER_CAR, TSS2_CAR, EPS_SCALE, RADAR_ACC_CAR_TSS1
+from selfdrive.controls.lib.vehicle_model import ACCELERATION_DUE_TO_GRAVITY
 
 
 class CarState(CarStateBase):
@@ -147,7 +149,9 @@ class CarState(CarStateBase):
     ret.pcmStandstill = self.pcm_acc_status == 7
 
     ret.genericToggle = bool(cp.vl["LIGHT_STALK"]["AUTO_HIGH_BEAM"])
-    ret.stockAeb = bool(cp_cam.vl["PRE_COLLISION"]["PRECOLLISION_ACTIVE"] and cp_cam.vl["PRE_COLLISION"]["FORCE"] < -1e-5)
+    ret.stockAeb = (bool(cp_cam.vl["PRE_COLLISION"]["PRECOLLISION_ACTIVE"] and cp_cam.vl["PRE_COLLISION"]["FORCE"] < -1e-5)) or \
+      ((self.CP.smartDsu or not self.CP.openpilotLongitudinalControl or (self.CP.carFingerprint in RADAR_ACC_CAR_TSS1 and self.CP.radarInterceptor)) \
+       and bool(cp.vl["PRE_COLLISION"]["PRECOLLISION_ACTIVE"] and cp.vl["PRE_COLLISION"]["FORCE"] < -1e-5))
 
     ret.espDisabled = cp.vl["ESP_CONTROL"]["TC_DISABLED"] != 0
     # 2 is standby, 10 is active. TODO: check that everything else is really a faulty state
@@ -160,6 +164,11 @@ class CarState(CarStateBase):
     if self.CP.flags & ToyotaFlags.CHR_BSM:
       ret.rightBlindspot = (cp.vl["BSM"]["L_ADJACENT"] == 1) or (cp.vl["BSM"]["L_APPROACHING"] == 1)
       ret.leftBlindspot = (cp.vl["BSM"]["R_ADJACENT"] == 1) or (cp.vl["BSM"]["R_APPROACHING"] == 1)
+
+    # Calculate pitch, roll, yaw
+    ret.kinematicsPitch = math.atan2(-cp.vl["KINEMATICS"]["ACCEL_Y"], math.sqrt(cp.vl["KINEMATICS"]["ACCEL_X"]**2 + ACCELERATION_DUE_TO_GRAVITY**2))
+    ret.kinematicsYaw = math.radians(cp.vl["KINEMATICS"]["YAW_RATE"]) * (ret.vEgoRaw / 3.6)
+    ret.kinematicsRoll = math.atan2(cp.vl["KINEMATICS"]["ACCEL_X"], math.sqrt(cp.vl["KINEMATICS"]["ACCEL_Y"]**2 + ACCELERATION_DUE_TO_GRAVITY**2))
 
     # LKAS_HUD is on a different address on the Prius V, don't send to avoid problems
     if self.CP.carFingerprint != CAR.PRIUS_V:
@@ -232,6 +241,9 @@ class CarState(CarStateBase):
       ("BRAKE_LIGHTS_ACC", "ESP_CONTROL"),
       ("PARKING_LIGHT", "LIGHT_STALK"),
       ("LOW_BEAM", "LIGHT_STALK"),
+      ("ACCEL_Y", "KINEMATICS"),
+      ("ACCEL_X", "KINEMATICS"),
+      ("YAW_RATE", "KINEMATICS"),
     ]
 
     checks = [
@@ -246,6 +258,7 @@ class CarState(CarStateBase):
       ("WHEEL_SPEEDS", 80),
       ("STEER_ANGLE_SENSOR", 80),
       ("PCM_CRUISE", 33),
+      ("KINEMATICS", 80),
       ("STEER_TORQUE_SENSOR", 50),
     ]
 
@@ -274,7 +287,10 @@ class CarState(CarStateBase):
     # checks for TSS-P RADAR ACC cars
     if CP.carFingerprint in RADAR_ACC_CAR_TSS1 and CP.radarInterceptor:
       signals.append(("DISTANCE", "ACC_CONTROL_COPY"))
+      signals.append(("FORCE", "PRE_COLLISION")),
+      signals.append(("PRECOLLISION_ACTIVE", "PRE_COLLISION")),
       checks.append(("ACC_CONTROL_COPY", 33))
+      checks.append(("PRE_COLLISION", 0)),
 
     # add gas interceptor reading if we are using it
     if CP.enableGasInterceptor:
@@ -300,6 +316,12 @@ class CarState(CarStateBase):
     if CP.smartDsu:
       signals.append(("FD_BUTTON", "SDSU"))
       checks.append(("SDSU", 0))
+
+    # PCS on TSS-P vehicles
+    if CP.smartDsu or not CP.openpilotLongitudinalControl:
+      signals.append(("FORCE", "PRE_COLLISION")),
+      signals.append(("PRECOLLISION_ACTIVE", "PRE_COLLISION")),
+      checks.append(("PRE_COLLISION", 0)),
 
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, 0)
 

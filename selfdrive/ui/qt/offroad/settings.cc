@@ -217,6 +217,14 @@ DodgypilotPanel::DodgypilotPanel(SettingsWindow *parent) : ListWidget(parent) {
       "../assets/offroad/icon_speed_limit.png",
     },
 
+    // auto door lock
+    {
+      "EnableAutoDoorLockUnlock",
+      "Toyota: Auto Door Lock / Unlock",
+      "Automatically lock all doors when speed reaches 15 km/h, and automatically unlock all doors when shifting to park, or when AEB is triggered.",
+      "../assets/offroad/icon_door_lock.png",
+    },
+
     // link car's dash brightness with your comma device
     // should be universal on Toyota/Lexus vehicles
     {

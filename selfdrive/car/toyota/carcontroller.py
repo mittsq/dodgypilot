@@ -1,6 +1,7 @@
 from cereal import car
 from common.numpy_fast import clip, interp
 from common.params import Params
+from common.realtime import DT_CTRL
 from selfdrive.car import apply_toyota_steer_torque_limits, create_gas_interceptor_command, make_can_msg
 from selfdrive.car.toyota.toyotacan import create_steer_command, create_ui_command, \
                                            create_accel_command, create_acc_cancel_command, \
@@ -16,6 +17,13 @@ MAX_STEER_RATE = 100  # deg/s
 MAX_STEER_RATE_FRAMES = 19
 
 params = Params()
+
+# door lock stuff
+GearShifter = car.CarState.GearShifter
+UNLOCK_CMD = b'\x40\x05\x30\x11\x00\x40\x00\x00'
+LOCK_CMD = b'\x40\x05\x30\x11\x00\x80\x00\x00'
+LOCK_AT_SPEED = 4.
+RELOCK_TIME_AFTER_PCS = 30. # seconds to trigger relock condition after PCS was triggered
 
 class CarController:
   def __init__(self, dbc_name, CP, VM):
@@ -36,6 +44,13 @@ class CarController:
     self.gas = 0
     self.accel = 0
 
+    # auto door lock stuff
+    self.auto_lock_unlock = params.get_bool("EnableAutoDoorLockUnlock")
+    self.gear_prev = GearShifter.park
+    self.pcs_prev = False
+    self.pcs_frame_prev = 0
+    self.door_locked = False
+    self.pcs_should_relock = False
   def update(self, CC, CS):
     actuators = CC.actuators
     hud_control = CC.hudControl
@@ -148,6 +163,32 @@ class CarController:
     else:
       self.permit_braking = True
 
+    # auto door lock and unlock logic
+    if not CS.out.doorOpen:
+      gear = CS.out.gearShifter
+      if gear == GearShifter.park and self.gear_prev != gear:
+        if self.auto_lock_unlock:
+          can_sends.append(make_can_msg(0x750, UNLOCK_CMD, 0))
+        self.door_locked = False
+      elif gear == GearShifter.drive and not self.door_locked and CS.out.vEgo >= LOCK_AT_SPEED:
+        if self.auto_lock_unlock:
+          can_sends.append(make_can_msg(0x750, LOCK_CMD, 0))
+        self.door_locked = True
+      self.gear_prev = gear
+      # unlock doors if stock AEB is triggered
+      if CS.out.stockAeb and not self.pcs_prev and self.door_locked:
+        if self.auto_lock_unlock:
+          can_sends.append(make_can_msg(0x750, UNLOCK_CMD, 0))
+        self.pcs_frame_prev = self.frame # record the frame that PCS was triggered
+        self.pcs_should_relock = True
+      self.pcs_prev = CS.out.stockAeb
+      # set door to relock after 30 seconds when PCS is triggered
+      if (self.frame - self.pcs_frame_prev) > (RELOCK_TIME_AFTER_PCS / DT_CTRL) and self.pcs_should_relock and gear == GearShifter.drive and \
+        CS.out.vEgo >= LOCK_AT_SPEED:
+        if self.auto_lock_unlock:
+          can_sends.append(make_can_msg(0x750, LOCK_CMD, 0))
+          self.pcs_should_relock = False
+
     # we can spam can to cancel the system even if we are using lat only control
     if (self.frame % 3 == 0 and self.CP.openpilotLongitudinalControl) or pcm_cancel_cmd:
       lead = hud_control.leadVisible or CS.out.vEgo < 12. # at low speed we always assume the lead is present so ACC can be engaged
@@ -159,7 +200,8 @@ class CarController:
       if pcm_cancel_cmd and self.CP.carFingerprint in (CAR.LEXUS_IS, CAR.LEXUS_RC):
         can_sends.append(create_acc_cancel_command(self.packer))
       elif self.CP.openpilotLongitudinalControl:
-        can_sends.append(create_accel_command(self.packer, pcm_accel_cmd, pcm_cancel_cmd, self.standstill_req, lead, CS.acc_type, adjust_distance, fcw_alert, self.permit_braking, lead_vehicle_stopped, acc_msg))
+        can_sends.append(create_accel_command(self.packer, pcm_accel_cmd, pcm_cancel_cmd, self.standstill_req, lead, CS.acc_type, adjust_distance, 
+                                              fcw_alert, self.permit_braking, lead_vehicle_stopped, acc_msg))
         self.accel = pcm_accel_cmd
       else:
         can_sends.append(create_accel_command(self.packer, 0, pcm_cancel_cmd, False, lead, CS.acc_type, adjust_distance, False, False, False, acc_msg))
