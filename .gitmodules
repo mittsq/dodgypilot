@@ -13,6 +13,3 @@
 [submodule "rednose_repo"]
 	path = rednose_repo
 	url = ../../commaai/rednose.git
-[submodule "canfilter"]
-	path = canfilter
-	url = ../../cydia2020/canfilter.git
